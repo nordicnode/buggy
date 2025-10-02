@@ -1,0 +1,106 @@
+[
+    {
+        "name": "Zone 1 - Starting Circuit",
+        "results": [
+            "SpeedyGonzalez",
+            "LightningLapper",
+            "VelocityViper",
+            "TurboTurtle",
+            "MomentumMaster",
+            "RapidRacer",
+            "CircuitCrawler",
+            "DashDestroyer"
+        ]
+    },
+    {
+        "name": "Zone 2 - Technical Twists",
+        "results": [
+            "LightningLapper",
+            "SpeedyGonzalez",
+            "MomentumMaster",
+            "VelocityViper",
+            "RapidRacer",
+            "TurboTurtle",
+            "DashDestroyer",
+            "CircuitCrawler"
+        ]
+    },
+    {
+        "name": "Zone 3 - Speed Straight",
+        "results": [
+            "VelocityViper",
+            "LightningLapper",
+            "SpeedyGonzalez",
+            "RapidRacer",
+            "MomentumMaster",
+            "TurboTurtle",
+            "CircuitCrawler",
+            "DashDestroyer"
+        ]
+    },
+    {
+        "name": "Zone 4 - Precision Path",
+        "results": [
+            "MomentumMaster",
+            "VelocityViper",
+            "LightningLapper",
+            "CircuitCrawler",
+            "SpeedyGonzalez",
+            "TurboTurtle",
+            "RapidRacer",
+            "DashDestroyer"
+        ]
+    },
+    {
+        "name": "Zone 5 - Rapid Rapids",
+        "results": [
+            "RapidRacer",
+            "MomentumMaster",
+            "VelocityViper",
+            "DashDestroyer",
+            "LightningLapper",
+            "SpeedyGonzalez",
+            "TurboTurtle",
+            "CircuitCrawler"
+        ]
+    },
+    {
+        "name": "Zone 6 - Endurance Loop",
+        "results": [
+            "TurboTurtle",
+            "RapidRacer",
+            "MomentumMaster",
+            "SpeedyGonzalez",
+            "VelocityViper",
+            "LightningLapper",
+            "DashDestroyer",
+            "CircuitCrawler"
+        ]
+    },
+    {
+        "name": "Zone 7 - Final Sprint",
+        "results": [
+            "CircuitCrawler",
+            "TurboTurtle",
+            "RapidRacer",
+            "DashDestroyer",
+            "MomentumMaster",
+            "SpeedyGonzalez",
+            "VelocityViper",
+            "LightningLapper"
+        ]
+    },
+    {
+        "name": "Zone 8 - Championship Chase",
+        "results": [
+            "DashDestroyer",
+            "CircuitCrawler",
+            "TurboTurtle",
+            "SpeedyGonzalez",
+            "LightningLapper",
+            "VelocityViper",
+            "MomentumMaster",
+            "RapidRacer"
+        ]
+    }
+]

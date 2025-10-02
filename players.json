@@ -1,0 +1,34 @@
+[
+    {
+        "name": "SpeedyGonzalez",
+        "zone": "Zone 1"
+    },
+    {
+        "name": "TurboTurtle",
+        "zone": "Zone 2"
+    },
+    {
+        "name": "LightningLapper",
+        "zone": "Zone 3"
+    },
+    {
+        "name": "CircuitCrawler",
+        "zone": "Zone 4"
+    },
+    {
+        "name": "VelocityViper",
+        "zone": "Zone 5"
+    },
+    {
+        "name": "MomentumMaster",
+        "zone": "Zone 6"
+    },
+    {
+        "name": "RapidRacer",
+        "zone": "Zone 7"
+    },
+    {
+        "name": "DashDestroyer",
+        "zone": "Zone 8"
+    }
+]
