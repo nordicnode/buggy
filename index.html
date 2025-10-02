@@ -756,6 +756,21 @@
                     this.zones = [];
                     this.isAdmin = this.isLocalhost();
                     this.loadTournamentData();
+
+                    // Load zones from localStorage if available
+                    this.loadZonesFromStorage();
+                }
+
+                // Load zones from localStorage
+                loadZonesFromStorage() {
+                    const savedZones = localStorage.getItem('tournamentZones');
+                    if (savedZones) {
+                        try {
+                            this.zones = JSON.parse(savedZones);
+                        } catch (e) {
+                            console.error('Error loading zones from localStorage:', e);
+                        }
+                    }
                 }
 
                 isLocalhost() {
@@ -1004,8 +1019,9 @@
                         results: [],
                     };
 
-                    // Update zones.json file
-                    this.updateZonesFile(zone);
+                    // Save to localStorage
+                    this.saveZone(zone);
+                    alert(`Zone "${name}" with map "${mapName}" has been added!`);
                     this.renderZones();
                     this.renderPublicZones();
                 },
@@ -1048,100 +1064,47 @@
                     );
                 },
 
-                updateZonesFile: function(newZone) {
-                    // Get current zones
-                    const currentZones = window.tournamentManager.zones || [];
-                    currentZones.push(newZone);
+                saveZone: function(zone) {
+                    let zones = this.getZones();
+                    zones.push(zone);
+                    localStorage.setItem('tournamentZones', JSON.stringify(zones));
 
-                    // Update local zones array immediately
-                    window.tournamentManager.zones = currentZones;
-
-                    // Create the updated JSON content
-                    const updatedContent = JSON.stringify(currentZones, null, 2);
-
-                    // For now, we'll update the local data and show instructions for manual commit
-                    console.log('Updated zones.json content:', updatedContent);
-
-                    // Show instructions for manual GitHub update
-                    this.showUpdateInstructions(updatedContent);
+                    // Update the TournamentManager zones array
+                    if (window.tournamentManager) {
+                        window.tournamentManager.zones = zones;
+                    }
                 },
 
-                deleteZoneFromFile: function(id) {
-                    const currentZones = window.tournamentManager.zones || [];
-                    const updatedZones = currentZones.filter(zone => zone.id !== id);
+                removeZone: function(id) {
+                    let zones = this.getZones();
+                    zones = zones.filter(zone => zone.id !== id);
+                    localStorage.setItem('tournamentZones', JSON.stringify(zones));
 
-                    // Update local zones array immediately
-                    window.tournamentManager.zones = updatedZones;
-
-                    // Create the updated JSON content
-                    const updatedContent = JSON.stringify(updatedZones, null, 2);
-
-                    console.log('Updated zones.json content:', updatedContent);
-
-                    // Show instructions for manual GitHub update
-                    this.showUpdateInstructions(updatedContent, 'delete');
-
-                    // Re-render the zones
-                    this.renderZones();
-                    this.renderPublicZones();
+                    // Update the TournamentManager zones array
+                    if (window.tournamentManager) {
+                        window.tournamentManager.zones = zones;
+                    }
                 },
 
-                showUpdateInstructions: function(jsonContent, action = 'add') {
-                    const actionText = action === 'delete' ? 'deleted' : 'added';
-                    const message = `
-Zone ${actionText} successfully!
-
-To make this change permanent and visible to all visitors:
-
-1. Copy the JSON content below
-2. Open the zones.json file in your GitHub repository
-3. Replace the entire content with the new JSON
-4. Commit and push the changes
-
-JSON Content:
-${jsonContent}
-
-After pushing, Netlify will automatically rebuild the site with the updated zones.
-                    `;
-
-                    // Create a modal or alert with the instructions
-                    const modal = document.createElement('div');
-                    modal.style.cssText = `
-                        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                        background: rgba(0,0,0,0.5); display: flex; align-items: center;
-                        justify-content: center; z-index: 10000;
-                    `;
-
-                    modal.innerHTML = `
-                        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
-                            <h3>Zone ${actionText} - Update Required</h3>
-                            <p>${message.replace(/\n/g, '<br>')}</p>
-                            <textarea style="width: 100%; height: 200px; font-family: monospace; margin: 10px 0;">${jsonContent}</textarea>
-                            <button onclick="this.parentElement.parentElement.remove()" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Close</button>
-                        </div>
-                    `;
-
-                    document.body.appendChild(modal);
+                getZones: function() {
+                    const savedZones = localStorage.getItem('tournamentZones');
+                    return savedZones ? JSON.parse(savedZones) : [];
                 },
 
                 renderZones: function () {
                     const zonesList = document.getElementById("zones-list");
                     if (!zonesList) return;
 
-                    // Get zones from TournamentManager
-                    const tournamentManager = window.tournamentManager;
-                    if (!tournamentManager || !tournamentManager.zones) {
-                        zonesList.innerHTML = '<p>Loading zones...</p>';
-                        return;
-                    }
+                    // Get zones from localStorage
+                    const zones = this.getZones();
 
-                    if (tournamentManager.zones.length === 0) {
+                    if (zones.length === 0) {
                         zonesList.innerHTML = '<p>No zones have been added yet.</p>';
                         return;
                     }
 
                     let html = '<div class="zones-grid">';
-                    tournamentManager.zones.forEach(zone => {
+                    zones.forEach(zone => {
                         html += `
                             <div class="zone-card" style="position: relative;">
                                 <h3>${zone.name}</h3>
@@ -1167,20 +1130,16 @@ After pushing, Netlify will automatically rebuild the site with the updated zone
                     const zonesList = document.getElementById("zones-view-list");
                     if (!zonesList) return;
 
-                    // Get zones from TournamentManager
-                    const tournamentManager = window.tournamentManager;
-                    if (!tournamentManager || !tournamentManager.zones) {
-                        zonesList.innerHTML = '<p>Loading zones...</p>';
-                        return;
-                    }
+                    // Get zones from localStorage
+                    const zones = this.getZones();
 
-                    if (tournamentManager.zones.length === 0) {
+                    if (zones.length === 0) {
                         zonesList.innerHTML = '<p>No zones have been added yet.</p>';
                         return;
                     }
 
                     let html = '<div class="zones-grid">';
-                    tournamentManager.zones.forEach(zone => {
+                    zones.forEach(zone => {
                         html += `
                             <div class="zone-card">
                                 <h3>${zone.name}</h3>
@@ -1197,7 +1156,9 @@ After pushing, Netlify will automatically rebuild the site with the updated zone
 
                 deleteZone: function(id) {
                     if (confirm('Are you sure you want to delete this zone?')) {
-                        this.deleteZoneFromFile(id);
+                        this.removeZone(id);
+                        this.renderZones();
+                        this.renderPublicZones();
                     }
                 },
 
