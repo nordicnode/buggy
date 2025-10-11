@@ -1,57 +1,58 @@
 # 🏁 Ultimate Buggy Racing Tournament Management System
 
-A professional tournament management system built with Strapi CMS and a responsive frontend.
+A professional tournament management system built with modern web technologies and Vercel-ready deployment.
 
 ## 🏗️ Architecture
 
-- **Backend**: Strapi CMS (Content Management)
-- **Frontend**: Static HTML/CSS/JavaScript (Tournament Display)
-- **Database**: SQLite (development) / PostgreSQL (production)
+- **Backend**: Express.js API with serverless functions
+- **Frontend**: Responsive HTML/CSS/JavaScript
+- **Deployment**: Optimized for Vercel hosting
 - **API**: REST APIs connecting backend to frontend
 
 ## 📁 Project Structure
 
 ```
 ultimate-buggy-racing/
-├── backend/           # Strapi CMS backend
-│   ├── api/          # API endpoints & content types
-│   ├── config/       # Strapi configuration
-│   └── ...
+├── api/              # Serverless API functions for Vercel
+│   └── index.js     # Main API server
 ├── frontend/         # Tournament website frontend
-│   ├── css/          # Stylesheets
+│   ├── css/          # Stylesheets (multiple versions)
 │   ├── js/           # JavaScript functionality
-│   ├── images/       # Static assets
 │   └── index.html    # Main tournament page
+├── backend/          # Local development server
+│   └── server.js     # Express development server
 ├── docs/             # Documentation
+├── vercel.json       # Vercel deployment configuration
+├── package.json      # Dependencies and scripts
 └── README.md         # This file
 ```
 
 ## 🎯 Tournament Features
 
-### Content Management (Strapi)
-- **Tournament Management**: Seasons, events, dates
-- **Player Registration**: Racer profiles and assignments
+### API Backend (Express/Serverless)
+- **Tournament Management**: Complete tournament data
+- **Player Registration**: Racer profiles and statistics
 - **Zone Management**: Track configurations and results
 - **Race Results**: Finishing orders and point calculations
-- **Lap Times**: Detailed timing records
-- **Live Scoring**: Real-time updates
+- **Admin Authentication**: Secure admin access
+- **Real-time Updates**: Live scoring and standings
 
 ### Public Display (Frontend)
 - **Tournament Information**: Event details and rules
 - **Current Standings**: Leaderboard with points
 - **Zone Information**: Track details and schedules
 - **Race Results**: Historical results and statistics
+- **Professional Design**: Clean, organized layout
 - **Responsive Design**: Mobile-friendly interface
 
 ## 🚀 Quick Start
 
-### Development Setup
+### Local Development
 
 1. **Backend Setup**:
    ```bash
    cd backend
-   npx create-strapi-app@latest . --quickstart --no-run
-   npm run develop
+   npm start
    ```
 
 2. **Frontend Setup**:
@@ -61,16 +62,22 @@ ultimate-buggy-racing/
    ```
 
 3. **Access Points**:
-   - Strapi Admin: http://localhost:1337/admin
+   - Local API: http://localhost:1337/api
    - Tournament Site: http://localhost:8000
-   - API Documentation: http://localhost:1337/documentation
 
-### Tournament Data Flow
+### Vercel Deployment
 
-1. **Content Creation**: Admins manage data via Strapi admin panel
-2. **API Publishing**: Strapi exposes REST APIs for all content
-3. **Frontend Consumption**: Tournament site fetches data via API
-4. **Real-time Updates**: Changes appear instantly on the website
+1. **Install Vercel CLI**:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy**:
+   ```bash
+   vercel --prod
+   ```
+
+3. **Your Site**: https://ultimate-buggy-racing.vercel.app
 
 ## 🏆 Points System
 
@@ -88,10 +95,11 @@ ultimate-buggy-racing/
 
 ## 🛠️ Technology Stack
 
-- **Strapi**: Headless CMS for content management
+- **Express.js**: Backend API server
 - **HTML5/CSS3**: Modern web standards
 - **JavaScript**: Dynamic frontend functionality
-- **Responsive Design**: Mobile-first approach
+- **Vercel**: Serverless deployment platform
+- **Node.js**: JavaScript runtime
 - **REST API**: Standard web API protocols
 
 ## 📋 Tournament Structure
@@ -104,8 +112,57 @@ ultimate-buggy-racing/
 
 ## 🎨 Design Features
 
+- **Professional Layout**: Clean, organized sections
 - **Racing Theme**: Motorsport-inspired design
-- **Flag Colors**: Checkered patterns and racing aesthetics
 - **Clear Typography**: Easy-to-read standings and results
 - **Interactive Elements**: Engaging user interface
 - **Mobile Optimized**: Works on all devices
+- **Modern CSS**: Professional color palette and spacing
+
+## 🔧 Configuration
+
+### Environment Variables
+- `ADMIN_PASSWORD`: Admin authentication password
+- `NODE_ENV`: Environment (development/production)
+
+### Vercel Configuration
+The `vercel.json` file handles:
+- API routing to serverless functions
+- Static file serving
+- Build configuration
+- Function timeouts
+
+## 📊 API Endpoints
+
+- `GET /api/tournaments` - Tournament information
+- `PUT /api/tournaments/:id` - Update tournament
+- `GET /api/players` - Player data
+- `GET /api/zones` - Zone information
+- `GET /api/race-results` - Race results
+- `POST/PUT/DELETE` - Admin endpoints (authenticated)
+
+## 🌐 Deployment Features
+
+- **Free SSL Certificate**: HTTPS by default
+- **Global CDN**: Fast worldwide performance
+- **Automatic Deployments**: Git integration
+- **Serverless Functions**: Scalable backend
+- **Custom Domain**: Support for personal domains
+
+## 🔐 Security
+
+- **Admin Authentication**: Bearer token protection
+- **CORS Configuration**: Secure cross-origin requests
+- **Environment Variables**: Secure credential storage
+- **HTTPS Only**: Encrypted connections in production
+
+## 📈 Monitoring
+
+- **Vercel Analytics**: Performance metrics
+- **Function Logs**: API monitoring
+- **Usage Statistics**: Bandwidth and requests
+- **Error Tracking**: Automatic error reporting
+
+---
+
+**🏁 Built for Ultimate Buggy Racing Tournament Management**
