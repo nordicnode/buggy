@@ -72,9 +72,6 @@
                 margin-bottom: 10px !important;
                 font-size: 1.6em !important;
             }
-            .section h2 {
-                font-size: 1.6em !important;
-            }
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -127,7 +124,7 @@
                 font-weight: bold;
             }
             .position-2 {
-                color: #95a5a6;Results
+                color: #95a5a6;
                 font-weight: bold;
             }
             .position-3 {
@@ -445,11 +442,7 @@
             <div
                 class="tab-navigation admin-tabs"
                 id="admin-tabs"
-                style="
-                    display: none;
-                    border-top: 1px solid #dee2e6;
-                    margin-top: -1px;
-                "
+                style="display: none; border-top: 1px solid #dee2e6; margin-top: -1px;"
             >
                 <button class="tab-button" onclick="showTab('zones')">
                     Zone Management
@@ -470,14 +463,7 @@
                         EIGHT WEEKS. EIGHT ZONES. ONE CHAMPION.
                     </div>
 
-                    <p
-                        style="
-                            font-size: 1.1em;
-                            text-align: center;
-                            margin-bottom: 30px;
-                            color: #2c3e50;
-                        "
-                    >
+                    <p style="font-size: 1.1em; text-align: center; margin-bottom: 30px;">
                         Think you have the skill and consistency to dominate the
                         track? This is your chance to prove it. Compete in the
                         season's most demanding racing series and fight for the
@@ -579,11 +565,7 @@
                                 <tr>
                                     <td
                                         colspan="3"
-                                        style="
-                                            text-align: center;
-                                            color: #6c757d;
-                                            font-style: italic;
-                                        "
+                                        style="text-align: center; color: #6c757d; font-style: italic;"
                                     >
                                         No players or results recorded
                                     </td>
@@ -654,7 +636,7 @@
                         <button type="submit" class="btn">Add Zone</button>
                     </form>
 
-                    <h3 style="margin-top: 30px">Current Zones</h3>
+                    <h3 style="margin-top: 30px;">Current Zones</h3>
                     <div id="zones-list"></div>
                 </section>
             </div>
@@ -678,7 +660,7 @@
                         <button type="submit" class="btn">Add Racer</button>
                     </form>
 
-                    <h3 style="margin-top: 30px">Registered Racers</h3>
+                    <h3 style="margin-top: 30px;">Registered Racers</h3>
                     <div id="racers-list"></div>
                 </section>
             </div>
@@ -718,30 +700,15 @@
                             Record Lap Time
                         </button>
                     </form>
-                    <p
-                        style="
-                            margin-top: 20px;
-                            font-size: 0.9em;
-                            color: #6c757d;
-                        "
-                    >
+                    <p style="margin-top: 20px; font-size: 0.9em; color: #6c757d;">
                         <strong>Note:</strong> Enter lap times in MM:SS.mmm
                         format (e.g., 1:23.456)
                     </p>
                 </section>
             </div>
 
-            <footer
-                style="
-                    margin-top: 40px;
-                    padding: 20px;
-                    text-align: center;
-                    background: #f8f9fa;
-                    border-radius: 8px;
-                    border: 1px solid #dee2e6;
-                "
-            >
-                <p style="margin: 0; font-size: 0.9em; color: #6c757d">
+            <footer class="footer">
+                <p>
                     Tournament starts on October 18, 2025<br />
                     <strong>8-Zone Lapping Tournament Manager</strong>
                 </p>
@@ -772,26 +739,51 @@
                 async loadTournamentData() {
                     try {
                         // Try to load players data
-                        const playersResponse =
-                            await fetch("data/players.json");
+                        const playersResponse = await fetch("data/players.json");
                         if (playersResponse.ok) {
                             this.players = await playersResponse.json();
+                            console.log("Players data loaded successfully:", this.players.length, "players");
+                        } else {
+                            console.warn("Could not load players data:", playersResponse.status);
                         }
 
                         // Try to load zones data
                         const zonesResponse = await fetch("data/zones.json");
                         if (zonesResponse.ok) {
                             this.zones = await zonesResponse.json();
+                            console.log("Zones data loaded successfully:", this.zones.length, "zones");
+                        } else {
+                            console.warn("Could not load zones data:", zonesResponse.status);
                         }
 
                         this.initializeAdmin();
                         this.displayStandings();
                     } catch (error) {
-                        console.log(
-                            "No tournament data files found, using default state",
-                        );
+                        console.error("Error loading tournament data:", error);
+                        this.showDataLoadError();
                         this.initializeAdmin();
                         this.displayStandings();
+                    }
+                }
+                
+                showDataLoadError() {
+                    const errorMessage = document.createElement("div");
+                    errorMessage.style.cssText = `
+                        background: #f8d7da;
+                        color: #721c24;
+                        padding: 15px;
+                        border-radius: 8px;
+                        border: 1px solid #f5c6cb;
+                        margin-bottom: 20px;
+                    `;
+                    errorMessage.innerHTML = `
+                        <strong>Warning:</strong> Could not load tournament data files.
+                        Make sure data/players.json and data/zones.json exist and are properly formatted.
+                    `;
+                    
+                    const container = document.querySelector(".container");
+                    if (container) {
+                        container.insertBefore(errorMessage, container.firstChild);
                     }
                 }
 
@@ -1011,13 +1003,6 @@
                     this.renderPublicZones();
                 },
 
-                deleteZone: function (id) {
-                    console.log("Delete zone:", id);
-                    alert(
-                        "Zone deleted. You'll need to manually update the data/zones.json file.",
-                    );
-                    this.renderZones();
-                },
 
                 addRacer: function (name) {
                     const racer = {
@@ -1071,11 +1056,8 @@
                                 <p style="font-size: 0.9em; margin-top: 10px;">
                                     ${zone.results ? zone.results.length : 0} participants
                                 </p>
-                                <button onclick="TournamentData.deleteZone(${zone.id})"
-                                        style="position: absolute; top: 10px; right: 10px;
-                                               background: #e74c3c; color: white; border: none;
-                                               border-radius: 4px; padding: 5px 10px;
-                                               cursor: pointer; font-size: 12px;">
+                                <button class="btn-danger" onclick="TournamentData.deleteZone(${zone.id})"
+                                        style="position: absolute; top: 10px; right: 10px;">
                                     Delete
                                 </button>
                             </div>
@@ -1119,6 +1101,9 @@
 
                         this.renderZones();
                         this.renderPublicZones();
+                        
+                        // Show admin notice about manual JSON update
+                        alert("Zone deleted. Remember to manually update the data/zones.json file to persist changes.");
                     }
                 },
 
@@ -1158,7 +1143,9 @@
                 }
 
                 // Add active class to clicked button
-                event.target.classList.add("active");
+                if (event && event.target) {
+                    event.target.classList.add("active");
+                }
             }
 
             // Initialize tournament manager when page loads
