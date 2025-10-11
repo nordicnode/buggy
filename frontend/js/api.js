@@ -1,10 +1,20 @@
 // API Configuration and Communication
 class TournamentAPI {
     constructor() {
-        // Update this URL to match your Strapi backend
-        this.baseURL = 'http://localhost:1337/api';
+        // Use dynamic URL detection for production
+        this.baseURL = this.getBaseURL();
         this.cache = new Map();
         this.cacheTimeout = 0; // Disabled for debugging
+    }
+
+    // Dynamic URL detection for local vs production
+    getBaseURL() {
+        // If we're in development and running on localhost, use local backend
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:1337/api';
+        }
+        // Otherwise use the same origin as the frontend
+        return `${window.location.origin}/api`;
     }
 
     // Generic API request method
