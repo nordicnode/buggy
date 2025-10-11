@@ -716,7 +716,9 @@ class UIManager {
         if (this.elements.adminLink) {
             this.elements.adminLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.open('http://localhost:1337/admin', '_blank');
+                // Use API endpoint for admin panel in production
+                const adminUrl = window.location.origin + '/admin';
+                window.open(adminUrl, '_blank');
             });
         }
 
@@ -724,7 +726,8 @@ class UIManager {
         if (this.elements.apiDocs) {
             this.elements.apiDocs.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.open('http://localhost:1337/documentation', '_blank');
+                // Show API documentation in a modal
+                this.showAPIDocumentation();
             });
         }
     }

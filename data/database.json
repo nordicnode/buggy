@@ -1,0 +1,233 @@
+{
+  "tournament": {
+    "id": 1,
+    "attributes": {
+      "title": "Ultimate Buggy Racing Championship",
+      "description": "8-week tournament featuring the best buggy racers competing across 8 unique zones for the championship title. Test your skills, strategy, and consistency in this demanding racing series.",
+      "start_date": "2025-10-18T19:00:00.000Z",
+      "end_date": "2025-12-06T19:00:00.000Z",
+      "status": "active",
+      "total_weeks": 8,
+      "prizes": "🏆 1st Place: 180,000 TBUX + Special Buggy + Swag | 🥈 2nd Place: 90,000 TBUX + Swag | 🥉 3rd Place: 45,000 TBUX + Swag | 🏅 Finalists: 20,000 TBUX + Swag",
+      "rules": "**Tournament Rules:**\n\n1. **Race Format**: Weekly races with point-based scoring system\n2. **Points Distribution**: 1st (10pts), 2nd (9pts), 3rd (8pts), 4th (7pts), 5th (6pts), 6th (5pts), 7th (4pts), 8th (3pts), 9th+ (1pt)\n3. **Zone Rotation**: Each week features a different zone with unique challenges\n4. **Sportsmanship**: Respectful conduct required at all times\n5. **Technical Issues**: Race results may be reviewed for fairness\n6. **Participation**: Minimum 4 races required to qualify for final standings\n7. **Tiebreakers**: Head-to-head results, then best finishing positions",
+      "registration_info": "**How to Join:**\n\n• Registration opens: October 1st, 2025\n• Requirements: Valid racing license, approved buggy\n• Entry fee: 5,000 TBUX\n• Contact tournament admins to register\n• All participants must attend mandatory briefing on October 15th",
+      "contact_info": "**Tournament Administration:**\n\n• Head Organizer: RaceMaster\n• Technical Support: SpeedDemon\n• Rules Questions: TurboJudge\n• Emergency Contact: discord.gg/ultimateracing",
+      "stream_url": "https://twitch.tv/ultimateracing",
+      "discord_url": "https://discord.gg/ultimateracing"
+    }
+  },
+  "players": [
+    {
+      "id": 1,
+      "attributes": {
+        "name": "SpeedyGonzalez",
+        "zone_assignment": "Zone 1 - Starting Circuit",
+        "status": "active",
+        "total_points": 45,
+        "races_participated": 6,
+        "best_lap_time": "1:23.456",
+        "race_results": {
+          "data": [
+            { "id": 1, "attributes": { "position": 1, "points_earned": 10, "week_number": 1 } },
+            { "id": 2, "attributes": { "position": 2, "points_earned": 9, "week_number": 2 } },
+            { "id": 3, "attributes": { "position": 1, "points_earned": 10, "week_number": 3 } }
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "name": "TurboTurtle",
+        "zone_assignment": "Zone 2 - Technical Twists",
+        "status": "active",
+        "total_points": 38,
+        "races_participated": 6,
+        "best_lap_time": "1:25.123",
+        "race_results": {
+          "data": [
+            { "id": 4, "attributes": { "position": 3, "points_earned": 8, "week_number": 1 } },
+            { "id": 5, "attributes": { "position": 1, "points_earned": 10, "week_number": 4 } }
+          ]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "name": "LightningLapper",
+        "zone_assignment": "Zone 3 - Speed Straight",
+        "status": "active",
+        "total_points": 42,
+        "races_participated": 6,
+        "best_lap_time": "1:21.789",
+        "race_results": {
+          "data": [
+            { "id": 6, "attributes": { "position": 2, "points_earned": 9, "week_number": 1 } },
+            { "id": 7, "attributes": { "position": 1, "points_earned": 10, "week_number": 2 } }
+          ]
+        }
+      }
+    }
+  ],
+  "zones": [
+    {
+      "id": 1,
+      "attributes": {
+        "name": "Zone 1 - Starting Circuit",
+        "map_name": "Alpine Circuit",
+        "map_url": "",
+        "map_info": null,
+        "description": "A challenging introductory course with sweeping turns and technical sections. Perfect for setting the tone of the championship.",
+        "week_number": 1,
+        "is_active": false
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "name": "Zone 2 - Technical Twists",
+        "map_name": "Mountain Switchbacks",
+        "map_url": "",
+        "map_info": "",
+        "description": "Tight hairpin turns and elevation changes test precision and control. Only the most skilled racers can master this course.",
+        "week_number": 2,
+        "is_active": false
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "name": "Zone 3 - Speed Straight",
+        "map_name": "Desert Highway",
+        "map_url": "",
+        "map_info": "",
+        "description": "High-speed straights and gentle curves where top speed and drafting skills are paramount.",
+        "week_number": 3,
+        "is_active": false
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "name": "Zone 4 - Urban Challenge",
+        "map_name": "City Streets",
+        "map_url": "",
+        "map_info": "",
+        "description": "Navigating tight city corners and avoiding urban obstacles in this technical street circuit.",
+        "week_number": 4,
+        "is_active": false
+      }
+    },
+    {
+      "id": 5,
+      "attributes": {
+        "name": "Zone 5 - Water Hazard",
+        "map_name": "Coastal Drive",
+        "map_url": "",
+        "map_info": "",
+        "description": "Wet conditions and slippery surfaces around the coastal route test handling and control.",
+        "week_number": 5,
+        "is_active": false
+      }
+    },
+    {
+      "id": 6,
+      "attributes": {
+        "name": "Zone 6 - Mountain Climb",
+        "map_name": "Alpine Ascent",
+        "map_url": "",
+        "map_info": "",
+        "description": "Steep gradients and hairpin mountain passes challenge power and braking techniques.",
+        "week_number": 6,
+        "is_active": false
+      }
+    },
+    {
+      "id": 7,
+      "attributes": {
+        "name": "Zone 7 - Forest Run",
+        "map_name": "Woodland Trail",
+        "map_url": "",
+        "map_info": "",
+        "description": "Narrow forest paths and unpredictable terrain require precision and adaptability.",
+        "week_number": 7,
+        "is_active": false
+      }
+    },
+    {
+      "id": 8,
+      "attributes": {
+        "name": "Zone 8 - Championship Chase",
+        "map_name": "Victory Lane",
+        "map_url": "",
+        "map_info": "",
+        "description": "The ultimate test of skill, nerve, and strategy. Every mistake could be championship-ending.",
+        "week_number": 8,
+        "is_active": true
+      }
+    }
+  ],
+  "raceResults": [
+    {
+      "id": 1,
+      "attributes": {
+        "position": 1,
+        "points_earned": 10,
+        "lap_time": "1:23.456",
+        "race_date": "2025-10-18T20:00:00.000Z",
+        "week_number": 1,
+        "player": { "data": { "id": 1, "attributes": { "name": "SpeedyGonzalez" } } },
+        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
+      }
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "position": 2,
+        "points_earned": 9,
+        "lap_time": "1:24.123",
+        "race_date": "2025-10-18T20:00:00.000Z",
+        "week_number": 1,
+        "player": { "data": { "id": 3, "attributes": { "name": "LightningLapper" } } },
+        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
+      }
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "position": 3,
+        "points_earned": 8,
+        "lap_time": "1:25.456",
+        "race_date": "2025-10-18T20:00:00.000Z",
+        "week_number": 1,
+        "player": { "data": { "id": 2, "attributes": { "name": "TurboTurtle" } } },
+        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
+      }
+    },
+    {
+      "id": 4,
+      "attributes": {
+        "position": 1,
+        "points_earned": 10,
+        "lap_time": "1:26.789",
+        "race_date": "2025-10-25T20:00:00.000Z",
+        "week_number": 2,
+        "player": { "data": { "id": 2, "attributes": { "name": "TurboTurtle" } } },
+        "zone": { "data": { "id": 2, "attributes": { "name": "Zone 2 - Technical Twists" } } }
+      }
+    },
+    {
+      "id": 5,
+      "attributes": {
+        "position": 2,
+        "points_earned": 9,
+        "lap_time": "1:27.123",
+        "race_date": "2025-10-25T20:00:00.000Z",
+        "week_number": 2,
+        "player": { "data": { "id": 1, "attributes": { "name": "SpeedyGonzalez" } } },
+        "zone": { "data": { "id": 2, "attributes": { "name": "Zone 2 - Technical Twists" } } }
+      }
+    }
+  ]
+}
