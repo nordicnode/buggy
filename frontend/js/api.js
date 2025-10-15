@@ -14,7 +14,12 @@ class TournamentAPI {
             return 'http://localhost:1337/api';
         }
         // If we're accessing through localtunnel, use the API tunnel
-        if (window.location.hostname === 'buggy-racing-tournament.loca.lt') {
+        if (window.location.hostname === 'buggy-racing-tournament.loca.lt' ||
+            window.location.hostname === 'buggy-racing-tournament-new.loca.lt') {
+            return 'https://buggy-racing-api.loca.lt/api';
+        }
+        // If we're on GitHub Pages, use the API tunnel
+        if (window.location.hostname === 'nordicnode.github.io') {
             return 'https://buggy-racing-api.loca.lt/api';
         }
         // Otherwise use the same origin as the frontend
