@@ -963,7 +963,8 @@ class UIManager {
                 e.preventDefault();
                 // Use appropriate admin panel URL based on environment
                 let adminUrl;
-                if (window.location.hostname === 'buggy-racing-tournament.loca.lt') {
+                if (window.location.hostname === 'buggy-racing-tournament.loca.lt' ||
+                    window.location.hostname === 'nordicnode.github.io') {
                     adminUrl = 'https://buggy-racing-api.loca.lt/admin';
                 } else {
                     adminUrl = window.location.origin + '/admin';
