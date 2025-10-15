@@ -640,6 +640,10 @@ app.use(cors({
       if (hostname.endsWith('.loca.lt')) {
         return callback(null, true);
       }
+
+      if (hostname.endsWith('.github.io')) {
+        return callback(null, true);
+      }
     } catch (error) {
       console.warn('⚠️ Invalid origin encountered in CORS check', {
         origin,

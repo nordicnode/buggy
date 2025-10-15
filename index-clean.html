@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ultimate Buggy Racing Tournament - Professional racing championship management">
+    <meta name="keywords" content="buggy racing, tournament, championship, racing management">
+    <title>🏁 Ultimate Buggy Racing</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles-clean.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏁</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-flag">🏁</div>
+            <h2>Loading Tournament...</h2>
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <span class="logo-flag">🏁</span>
+                <div>
+                    <h1>ULTIMATE BUGGY RACING</h1>
+                    <p class="logo-subtitle">Tournament Management System</p>
+                </div>
+            </a>
+
+            <nav class="nav">
+                <button class="nav-btn active" data-tab="overview">Overview</button>
+                <button class="nav-btn" data-tab="standings">Standings</button>
+                <button class="nav-btn" data-tab="zones">Zones</button>
+                <button class="nav-btn" data-tab="results">Results</button>
+                <button class="nav-btn" data-tab="players">Players</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Status Banner -->
+    <div class="status-banner">
+        <div class="status-content">
+            <span class="status-indicator" id="tournament-status">Active</span>
+            <span class="status-text" id="tournament-info">Ultimate Buggy Racing Championship 2025</span>
+            <span class="countdown" id="tournament-countdown"></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Overview Tab -->
+        <section id="overview" class="tab-content active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title">8 Weeks. 8 Zones. 1 Champion.</h2>
+                    <p class="hero-subtitle" id="tournament-description">
+                        The most demanding buggy racing championship is here.
+                        Test your skills across 8 unique zones and compete for the ultimate prize.
+                    </p>
+
+                    <div class="tournament-dates">
+                        <div class="date-item">
+                            <span class="date-label">Start Date</span>
+                            <span class="date-value" id="start-date">TBD</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">End Date</span>
+                            <span class="date-value" id="end-date">TBD</span>
+                        </div>
+                        <div class="date-item">
+                            <span class="date-label">Week</span>
+                            <span class="date-value" id="current-week">1/8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="total-players">0</span>
+                        <span class="stat-label">Racers</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="total-zones">8</span>
+                        <span class="stat-label">Zones</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="total-races">0</span>
+                        <span class="stat-label">Races</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Zone -->
+            <section class="current-zone-section">
+                <h3>Current Zone: <span id="current-zone-name">Loading...</span></h3>
+                <div class="current-zone-card">
+                    <div class="zone-info">
+                        <h4 id="current-zone-map">Zone Map</h4>
+                        <p id="current-zone-description">Loading zone information...</p>
+                    </div>
+                    <div class="zone-image" id="current-zone-image">
+                        🗺️
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tournament Information -->
+            <section class="tournament-info-section">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>🏆 Prizes</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="tournament-prizes">
+                                <p>Loading prize information...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📋 Rules & Regulations</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="tournament-rules">
+                                <p>Loading tournament rules...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registration Section -->
+            <section class="registration-section" id="registration-section" style="display: none;">
+                <div class="section-header">
+                    <h3>🎯 How to Join</h3>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="tournament-registration">
+                            <p>Loading registration information...</p>
+                        </div>
+                        <div class="community-links" id="community-links">
+                            <a href="#" id="stream-link" target="_blank" class="btn btn-primary" style="display: none;">
+                                📺 Watch Live
+                            </a>
+                            <a href="#" id="discord-link" target="_blank" class="btn btn-secondary" style="display: none;">
+                                💬 Join Discord
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <div class="section-header">
+                    <h3>Recent Race Results</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="recent-results">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="text-tertiary">Loading recent results...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Standings Tab -->
+        <section id="standings" class="tab-content">
+            <div class="section-header">
+                <h2>Tournament Standings</h2>
+                <div class="view-controls">
+                    <select id="standings-filter" class="btn btn-secondary">
+                        <option value="all">All Players</option>
+                        <option value="top10">Top 10</option>
+                        <option value="active">Active Racers</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="overflow-x-auto">
+                        <table class="standings-table">
+                            <thead>
+                                <tr class="border-b border-neutral-200">
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Pos</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Player</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Zone</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Points</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Races</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Best</th>
+                                    <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Form</th>
+                                </tr>
+                            </thead>
+                            <tbody id="standings-body">
+                                <tr>
+                                    <td colspan="7" class="px-6 py-12 text-center text-neutral-500">
+                                        Loading standings...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zones Tab -->
+        <section id="zones" class="tab-content">
+            <div class="section-header">
+                <h2>Tournament Zones</h2>
+                <p class="section-description">8 unique zones, 8 weeks of racing</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="zones-grid">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="text-tertiary">Loading zones...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Tab -->
+        <section id="results" class="tab-content">
+            <div class="section-header">
+                <h2>Race Results</h2>
+                <div class="view-controls">
+                    <select id="results-week-filter" class="btn btn-secondary">
+                        <option value="all">All Weeks</option>
+                        <option value="1">Week 1</option>
+                        <option value="2">Week 2</option>
+                        <option value="3">Week 3</option>
+                        <option value="4">Week 4</option>
+                        <option value="5">Week 5</option>
+                        <option value="6">Week 6</option>
+                        <option value="7">Week 7</option>
+                        <option value="8">Week 8</option>
+                    </select>
+                    <select id="results-zone-filter" class="btn btn-secondary">
+                        <option value="all">All Zones</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" id="results-container">
+                    <div class="text-center text-neutral-500">
+                        <p>Loading race results...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Players Tab -->
+        <section id="players" class="tab-content">
+            <div class="section-header">
+                <h2>Tournament Players</h2>
+                <div class="search-bar">
+                    <input type="text" id="player-search" class="w-full md:w-80" placeholder="Search players...">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="players-grid">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="text-tertiary">Loading players...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-flag">🏁</span>
+                <div>
+                    <h3>BUGGY RACING</h3>
+                    <p>Ultimate Tournament System</p>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Tournament</h4>
+                    <a href="#" data-tab="overview">Overview</a>
+                    <a href="#" data-tab="standings">Standings</a>
+                    <a href="#" data-tab="zones">Zones</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Results</h4>
+                    <a href="#" data-tab="results">Race Results</a>
+                    <a href="#" data-tab="players">Players</a>
+                </div>
+                <div class="footer-section">
+                    <h4>System</h4>
+                    <a href="#" id="admin-link">Admin Panel</a>
+                    <a href="#" id="api-docs">API Docs</a>
+                </div>
+            </div>
+
+            <div class="footer-info">
+                <p class="text-sm text-neutral-400">© 2025 Ultimate Buggy Racing</p>
+                <p class="text-xs text-neutral-500">Professional tournament management</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/api.js"></script>
+    <script src="js/tournament.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
