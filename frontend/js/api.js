@@ -13,6 +13,10 @@ class TournamentAPI {
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             return 'http://localhost:1337/api';
         }
+        // If we're accessing through localtunnel, use the API tunnel
+        if (window.location.hostname === 'buggy-racing-tournament.loca.lt') {
+            return 'https://buggy-racing-api.loca.lt/api';
+        }
         // Otherwise use the same origin as the frontend
         return `${window.location.origin}/api`;
     }
@@ -127,8 +131,25 @@ class TournamentAPI {
     async getCurrentZone() {
         try {
             const response = await this.request('/zones');
-            // Find the active zone client-side since backend doesn't support filters
-            return response.data?.find(zone => zone.attributes.is_active) || null;
+            
+            // Find the active zone first
+            const activeZone = response.data?.find(zone => zone.attributes.is_active);
+            if (activeZone) {
+                return { ...activeZone, isUpcoming: false };
+            }
+            
+            // If no active zone, return the first zone as upcoming
+            const upcomingZone = response.data?.find(zone => zone.attributes.week_number === 1);
+            if (upcomingZone) {
+                return { ...upcomingZone, isUpcoming: true };
+            }
+            
+            // Fallback to first zone in list
+            if (response.data?.length > 0) {
+                return { ...response.data[0], isUpcoming: true };
+            }
+            
+            return null;
         } catch (error) {
             console.error('Failed to fetch current zone:', error);
             return null;
@@ -160,7 +181,7 @@ class TournamentAPI {
             tournament: {
                 id: 1,
                 attributes: {
-                    title: "Ultimate Buggy Racing Championship",
+                    title: "Ultimate Buggy Lapping Championship",
                     description: "8-week tournament featuring the best buggy racers competing across 8 unique zones for the championship title.",
                     start_date: "2025-10-18T19:00:00.000Z",
                     end_date: "2025-12-06T19:00:00.000Z",

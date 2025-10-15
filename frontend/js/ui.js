@@ -3,6 +3,7 @@ class UIManager {
     constructor() {
         this.currentTab = 'overview';
         this.isLoading = false;
+        this.countdownInterval = null;
         this.initializeElements();
     }
 
@@ -13,6 +14,11 @@ class UIManager {
             tabs: document.querySelectorAll('.tab-content'),
             navButtons: document.querySelectorAll('.nav-btn'),
             footerLinks: document.querySelectorAll('[data-tab]'),
+            tabTriggers: document.querySelectorAll('[data-tab-target]'),
+            
+            // Header elements
+            headerTitle: document.getElementById('header-title'),
+            headerSubtitle: document.getElementById('header-subtitle'),
 
             // Overview elements
             tournamentTitle: document.getElementById('tournament-description'),
@@ -134,6 +140,16 @@ class UIManager {
     updateOverview(tournament, stats, currentZone) {
         if (!tournament) return;
 
+        // Update header title
+        if (this.elements.headerTitle) {
+            this.elements.headerTitle.textContent = tournament.attributes.title || 'ULTIMATE BUGGY LAPPING';
+        }
+        
+        // Update header subtitle if it exists in tournament data
+        if (this.elements.headerSubtitle && tournament.attributes.subtitle) {
+            this.elements.headerSubtitle.textContent = tournament.attributes.subtitle;
+        }
+
         // Update tournament info
         if (this.elements.tournamentTitle) {
             this.elements.tournamentTitle.textContent = tournament.attributes.description;
@@ -235,6 +251,10 @@ class UIManager {
     // Format tournament text with markdown-like syntax
     formatTournamentText(text) {
         if (!text) return '<p>No information available</p>';
+        const trimmed = text.trim();
+        if (trimmed.startsWith('<')) {
+            return trimmed;
+        }
 
         return text
             .replace(/\n\n/g, '</p><p>')
@@ -246,14 +266,236 @@ class UIManager {
             .replace(/<\/p>$/, '</p>');
     }
 
+    normalizeText(text) {
+        if (!text) return '';
+        return text.replace(/\s+/g, ' ').trim().toLowerCase();
+    }
+
+    getSanitizedMapData(zoneData) {
+        if (!zoneData || !zoneData.map_data || typeof zoneData.map_data !== 'object') {
+            return null;
+        }
+
+        const raw = zoneData.map_data;
+        const sanitized = {};
+        const keysToCopy = ['title', 'location', 'region', 'environment', 'weather', 'owner', 'description', 'map_image_url', 'image_url'];
+
+        keysToCopy.forEach((key) => {
+            const value = raw[key];
+            if (!value || typeof value !== 'string') {
+                if ((key === 'map_image_url' || key === 'image_url') && value) {
+                    sanitized[key] = value;
+                }
+                return;
+            }
+
+            const trimmed = value.trim();
+            if (!trimmed) return;
+
+            const lower = trimmed.toLowerCase();
+            if (lower === 'none' || lower === 'n/a') return;
+
+            sanitized[key] = trimmed;
+        });
+
+        if (sanitized.description && zoneData.description) {
+            if (this.normalizeText(sanitized.description) === this.normalizeText(zoneData.description)) {
+                delete sanitized.description;
+            }
+        }
+
+        return Object.keys(sanitized).length ? sanitized : null;
+    }
+
+    getZoneSummary(zoneData, mapData) {
+        if (!zoneData || !zoneData.description) return '';
+        const summary = zoneData.description.trim();
+
+        if (!summary) return '';
+
+        if (mapData?.description && this.normalizeText(mapData.description) === this.normalizeText(summary)) {
+            return '';
+        }
+
+        return summary;
+    }
+
+    buildZoneMeta(zoneData) {
+        if (!zoneData) return '';
+
+        const metaItems = [
+            { label: 'Map', value: zoneData.map_name || zoneData.name },
+            { label: 'Week', value: zoneData.week_number }
+        ];
+
+        const metaHtml = metaItems
+            .filter(item => item.value !== undefined && item.value !== null && item.value !== '')
+            .map(item => `
+                <div style="display:flex; flex-direction:column; gap:0.25rem; padding:0.75rem; background: var(--bg-tertiary); border-radius: var(--radius-lg);">
+                    <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color: var(--text-secondary);">${item.label}</span>
+                    <span style="font-weight:600; color: var(--text-primary);">${item.value}</span>
+                </div>
+            `)
+            .join('');
+
+        return `
+            <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:0.75rem;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.75rem;">
+                    ${metaHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    buildMapDetailsSection(zoneData, mapData, options = {}) {
+        if (!mapData) return '';
+
+        const { dense = false } = options;
+        const padding = dense ? '0.75rem' : '1rem';
+        const marginTop = dense ? '0.75rem' : '1rem';
+
+        const detailRows = [];
+        const locationParts = [mapData.location, mapData.region].filter(Boolean).join(', ');
+        if (locationParts) {
+            detailRows.push({ icon: '📍', label: 'Location', value: locationParts });
+        }
+        if (mapData.environment) {
+            detailRows.push({ icon: '🌍', label: 'Environment', value: mapData.environment });
+        }
+        if (mapData.weather) {
+            detailRows.push({ icon: '🌤️', label: 'Weather', value: mapData.weather });
+        }
+        if (mapData.owner) {
+            detailRows.push({ icon: '👤', label: 'Owner', value: mapData.owner });
+        }
+
+        const rowsHtml = detailRows.length
+            ? `<div style="display:flex; flex-direction:column; gap:0.5rem;">${detailRows
+                .map(row => `
+                    <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; color: var(--text-secondary);">
+                        <span>${row.icon}</span>
+                        <span style="font-weight:600; color: var(--text-primary);">${row.label}:</span>
+                        <span>${row.value}</span>
+                    </div>
+                `).join('')}</div>`
+            : '';
+
+        const descriptionHtml = mapData.description
+            ? `<div style="margin-top:${detailRows.length ? '0.75rem' : '0'}; font-size:0.9rem; color: var(--text-secondary); line-height:1.6;">${mapData.description}</div>`
+            : '';
+
+        return `
+            <div class="map-details-section" style="margin-top:${marginTop}; padding:${padding}; background: var(--bg-tertiary); border-radius: var(--radius-lg); border: 1px solid rgba(15, 23, 42, 0.08);">
+                <div style="display:flex; justify-content:flex-start; align-items:center; gap:1rem; margin-bottom:${(detailRows.length || mapData.description) ? '0.75rem' : '0'};">
+                    <h4 style="margin:0; font-size:1rem; font-weight:600; color: var(--primary-red);">🗺️ ${mapData.title || zoneData.map_name || zoneData.name}</h4>
+                </div>
+                ${rowsHtml}
+                ${descriptionHtml}
+            </div>
+        `;
+    }
+
+    buildMapInfoFallback(mapInfo, zoneData) {
+        if (!mapInfo) return '';
+
+        const segments = mapInfo.includes('|')
+            ? mapInfo.split('|')
+            : mapInfo.split(/\r?\n/);
+
+        const zoneSummary = zoneData?.description ? this.normalizeText(zoneData.description) : '';
+
+        const entries = segments
+            .map(entry => entry.trim())
+            .filter(Boolean)
+            .filter(entry => {
+                const lower = entry.toLowerCase();
+                if (lower.startsWith('map:')) return false;
+                if (lower.startsWith('week:')) return false;
+                if (lower.startsWith('races:')) return false;
+
+                const stripped = entry.replace(/^[^:]+:\s*/i, '').trim();
+                if (stripped && zoneSummary && this.normalizeText(stripped) === zoneSummary) {
+                    return false;
+                }
+                return true;
+            });
+
+        if (!entries.length) return '';
+
+        return `
+            <div class="map-details-section" style="margin-top:0.75rem; padding:0.75rem; background: var(--bg-tertiary); border-radius: var(--radius-lg); border: 1px solid rgba(15, 23, 42, 0.08);">
+                <h4 style="margin:0 0 0.75rem 0; font-size:0.95rem; font-weight:600; color: var(--primary-red);">🗺️ Map Information</h4>
+                <ul style="margin:0; padding-left:1.1rem; display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color: var(--text-secondary);">
+                    ${entries.map(entry => `<li>${entry}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    renderZoneVisual(container, zoneData, mapData) {
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const imageUrl = mapData?.map_image_url || mapData?.image_url;
+
+        if (!imageUrl) {
+            container.style.display = 'none';
+            return;
+        }
+
+        container.style.display = 'flex';
+
+        const preview = new Image();
+        preview.alt = zoneData.name;
+        preview.loading = 'lazy';
+        preview.style.width = '100%';
+        preview.style.height = '100%';
+        preview.style.objectFit = 'cover';
+        preview.style.borderRadius = 'var(--radius-lg)';
+
+        preview.onload = () => {
+            container.innerHTML = '';
+            container.appendChild(preview);
+        };
+
+        preview.onerror = () => {
+            container.textContent = '';
+            container.style.display = 'none';
+        };
+
+        preview.src = imageUrl;
+    }
+
     // Update current zone display
     updateCurrentZone(zone) {
         if (!zone) return;
 
         const zoneData = zone.attributes;
+        const isUpcoming = zone.isUpcoming || false;
 
-        if (this.elements.currentZoneName) {
+        const mapData = this.getSanitizedMapData(zoneData);
+
+        // Update zone title to show "Upcoming" if it's not active
+        const zoneTitle = document.querySelector('.zone-title');
+        if (zoneTitle) {
+            zoneTitle.innerHTML = isUpcoming 
+                ? `Upcoming Zone: <span id="current-zone-name">${zoneData.name}</span>`
+                : `Current Zone: <span id="current-zone-name">${zoneData.name}</span>`;
+        } else if (this.elements.currentZoneName) {
             this.elements.currentZoneName.textContent = zoneData.name;
+        }
+
+        // Update or hide the LIVE badge
+        const statusBadge = document.querySelector('.zone-status-badge');
+        if (statusBadge) {
+            if (isUpcoming) {
+                statusBadge.innerHTML = '<span>UPCOMING</span>';
+                statusBadge.classList.add('upcoming');
+            } else {
+                statusBadge.innerHTML = '<span class="zone-pulse"></span><span>LIVE</span>';
+                statusBadge.classList.remove('upcoming');
+            }
         }
 
         if (this.elements.currentZoneMap) {
@@ -261,81 +503,24 @@ class UIManager {
         }
 
         if (this.elements.currentZoneDescription) {
-            let description = zoneData.description;
+            const sections = [];
 
-            // Parse map data if available
-            let mapData = null;
-            if (zoneData.map_data && typeof zoneData.map_data === 'object') {
-                mapData = zoneData.map_data;
-            }
-
-            // Add rich map information if available
             if (mapData) {
-                description += `\n\n---\n\n**🗺️ Zone Details**\n\n`;
-
-                // Group related information together
-                if (mapData.title) {
-                    description += `**${mapData.title}**\n\n`;
-                }
-
-                // Location and Environment section
-                if (mapData.location || mapData.region || mapData.environment || mapData.weather) {
-                    description += `**Location & Environment**\n`;
-                    if (mapData.location || mapData.region) {
-                        description += `📍 ${mapData.location || ''}${mapData.region ? ', ' + mapData.region : ''}\n`;
-                    }
-                    if (mapData.environment) {
-                        description += `🌍 ${mapData.environment}\n`;
-                    }
-                    if (mapData.weather) {
-                        description += `🌤️ ${mapData.weather}\n`;
-                    }
-                    description += `\n`;
-                }
-
-                // Zone details section
-                if (mapData.owner || mapData.description) {
-                    description += `**Zone Information**\n`;
-                    if (mapData.owner) {
-                        description += `👤 Owner: ${mapData.owner}\n`;
-                    }
-                    if (mapData.description) {
-                        description += `📝 ${mapData.description}\n`;
-                    }
-                }
+                sections.push(this.buildMapDetailsSection(zoneData, mapData));
             } else if (zoneData.map_info) {
-                // Fallback to simple map info
-                description += `\n\n---\n\n**🗺️ Map Information**\n${zoneData.map_info}`;
+                sections.push(this.buildMapInfoFallback(zoneData.map_info, zoneData));
             }
 
-            this.elements.currentZoneDescription.innerHTML = this.formatTournamentText(description);
-        }
-
-        if (this.elements.currentZoneImage) {
-            // If zone has image, display it; otherwise show placeholder
-            if (zoneData.map_image?.data?.attributes?.url) {
-                this.elements.currentZoneImage.innerHTML = `
-                    <img src="${zoneData.map_image.data.attributes.url}"
-                         alt="${zoneData.name}"
-                         style="width: 100%; height: 100%; object-fit: cover;">
-                `;
-            } else {
-                // Add map link if available
-                if (zoneData.map_url) {
-                    this.elements.currentZoneImage.innerHTML = `
-                        <a href="${zoneData.map_url}" target="_blank" style="display: block; width: 100%; height: 100%; text-decoration: none;">
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg-tertiary); border-radius: var(--radius-lg); transition: all 0.2s ease;" onmouseover="this.style.background='var(--primary-red)'; this.style.color='white';" onmouseout="this.style.background='var(--bg-tertiary)'; this.style.color='inherit';">
-                                <div style="text-align: center;">
-                                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🗺️</div>
-                                    <div style="font-size: 0.875rem; font-weight: 600;">View Map</div>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                } else {
-                    this.elements.currentZoneImage.innerHTML = '<div class="placeholder-image">🗺️</div>';
-                }
+            const zoneSummary = this.getZoneSummary(zoneData, mapData);
+            if (zoneSummary) {
+                sections.push(`<div style="margin-top:${sections.length ? '1rem' : '0'};">${this.formatTournamentText(zoneSummary)}</div>`);
             }
+
+            if (!sections.length) {
+                sections.push('<p>No map information available.</p>');
+            }
+
+            this.elements.currentZoneDescription.innerHTML = sections.join('');
         }
     }
 
@@ -392,7 +577,7 @@ class UIManager {
                     </div>
                     <div class="activity-details">
                         <span class="activity-zone">${zone?.name || 'Unknown'}</span>
-                        <span class="activity-time">${window.tournamentManager.formatTime(resultData.lap_time)}</span>
+                        <span class="activity-time">${window.tournamentManager.formatTime(resultData.finish_time || resultData.lap_time)}</span>
                     </div>
                     <div class="activity-meta">
                         <span class="activity-date">Week ${resultData.week_number}</span>
@@ -414,7 +599,7 @@ class UIManager {
         if (!standings || standings.length === 0) {
             this.elements.standingsBody.innerHTML = `
                 <tr>
-                    <td colspan="7" class="loading-cell">No standings data available</td>
+                    <td colspan="6" class="loading-cell">No standings data available</td>
                 </tr>
             `;
             return;
@@ -429,7 +614,6 @@ class UIManager {
                 <tr class="${leaderClass} slide-up">
                     <td class="${positionClass}">${index + 1}</td>
                     <td class="player-name">${player.name}</td>
-                    <td class="player-zone">${player.zone}</td>
                     <td class="total-points">${player.totalPoints}</td>
                     <td class="races-count">${player.racesParticipated}</td>
                     <td class="best-position">${bestPositionText}</td>
@@ -470,12 +654,19 @@ class UIManager {
         const html = zones.map(zone => {
             const zoneData = zone.attributes;
             const isActive = zoneData.is_active;
-            const raceCount = window.tournamentManager.raceResults.filter(r => r.attributes.zone?.data?.id === zone.id).length;
+            const mapData = this.getSanitizedMapData(zoneData);
+            const zoneSummary = this.getZoneSummary(zoneData, mapData);
+            const metaHtml = this.buildZoneMeta(zoneData);
 
-            // Parse map data if available
-            let mapData = null;
-            if (zoneData.map_data && typeof zoneData.map_data === 'object') {
-                mapData = zoneData.map_data;
+            let mapDetailsHtml = '';
+            if (mapData) {
+                mapDetailsHtml = this.buildMapDetailsSection(zoneData, mapData, { dense: true });
+            } else if (zoneData.map_info) {
+                mapDetailsHtml = this.buildMapInfoFallback(zoneData.map_info, zoneData);
+            }
+
+            if (!mapDetailsHtml) {
+                mapDetailsHtml = '<div style="margin-top:0.75rem; font-size:0.85rem; color: var(--text-secondary);">Map details coming soon.</div>';
             }
 
             return `
@@ -485,39 +676,10 @@ class UIManager {
                         ${isActive ? '<span class="active-badge">ACTIVE</span>' : ''}
                     </div>
                     <div class="zone-details">
-                        <p><strong>Map:</strong> ${zoneData.map_name}</p>
-                        <p><strong>Week:</strong> ${zoneData.week_number}</p>
-                        <p><strong>Races:</strong> ${raceCount}</p>
-                        ${zoneData.map_url ? `<p><strong>Map URL:</strong> <a href="${zoneData.map_url}" target="_blank" style="color: var(--primary-red); text-decoration: none; font-weight: 500;">View Map Details</a></p>` : ''}
-
-                        ${mapData ? `
-                            <div class="map-details-section" style="margin-top: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-lg);">
-                                ${mapData.title ? `<h4 style="color: var(--primary-red); margin-bottom: 1rem;">🗺️ ${mapData.title}</h4>` : '<h4 style="color: var(--primary-red); margin-bottom: 1rem;">🗺️ Zone Details</h4>'}
-
-                                ${mapData.location || mapData.region || mapData.environment || mapData.weather ? `
-                                    <div style="margin-bottom: 1rem;">
-                                        <p style="font-weight: 600; margin-bottom: 0.5rem;">📍 Location & Environment</p>
-                                        ${mapData.location || mapData.region ? `<p style="font-size: 0.875rem; margin: 0.25rem 0;">📍 ${mapData.location || ''}${mapData.region ? ', ' + mapData.region : ''}</p>` : ''}
-                                        ${mapData.environment ? `<p style="font-size: 0.875rem; margin: 0.25rem 0;">🌍 ${mapData.environment}</p>` : ''}
-                                        ${mapData.weather ? `<p style="font-size: 0.875rem; margin: 0.25rem 0;">🌤️ ${mapData.weather}</p>` : ''}
-                                    </div>
-                                ` : ''}
-
-                                ${mapData.owner || mapData.description ? `
-                                    <div>
-                                        <p style="font-weight: 600; margin-bottom: 0.5rem;">🏁 Zone Information</p>
-                                        ${mapData.owner ? `<p style="font-size: 0.875rem; margin: 0.25rem 0;">👤 Owner: ${mapData.owner}</p>` : ''}
-                                        ${mapData.description ? `<p style="font-size: 0.875rem; margin: 0.25rem 0; color: var(--text-secondary);">📝 ${mapData.description}</p>` : ''}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
-
-                        ${zoneData.map_info && !mapData ? `<p><strong>Map Info:</strong> <span style="color: var(--text-secondary); font-size: 0.875rem;">${zoneData.map_info}</span></p>` : ''}
+                        ${metaHtml}
+                        ${mapDetailsHtml}
                     </div>
-                    <div class="zone-description">
-                        <p>${zoneData.description}</p>
-                    </div>
+                    ${zoneSummary ? `<div class="zone-description">${this.formatTournamentText(zoneSummary)}</div>` : ''}
                 </div>
             `;
         }).join('');
@@ -544,9 +706,26 @@ class UIManager {
 
         const html = Object.entries(groupedResults).map(([week, weekResults]) => `
             <div class="week-results fade-in">
-                <h3>Week ${week}</h3>
-                <div class="week-results-grid">
-                    ${weekResults.map(result => this.renderRaceResult(result)).join('')}
+                <div class="week-results-header">
+                    <h3>Week ${week}</h3>
+                    <span class="week-results-count">${weekResults.length} result${weekResults.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div class="results-table-wrapper">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Player</th>
+                                <th>Zone</th>
+                                <th>Time</th>
+                                <th>Points</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${weekResults.map(result => this.renderRaceResult(result)).join('')}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         `).join('');
@@ -566,18 +745,26 @@ class UIManager {
 
     // Render individual race result
     renderRaceResult(result) {
-        const positionClass = result.position <= 3 ? `position-${result.position}` : '';
+        const position = result.position || 1;
+        const positionClass = position <= 3 ? `podium-${position}` : '';
+        const positionBadge = position <= 3 ? 
+            `<span class="position-badge ${positionClass}">${position}</span>` : 
+            `<span class="position-number">${position}</span>`;
+        
+        const dateStr = result.raceDate ? new Date(result.raceDate).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric' 
+        }) : '-';
 
         return `
-            <div class="race-result-card">
-                <div class="race-position ${positionClass}">${result.position}</div>
-                <div class="race-details">
-                    <h4>${result.player}</h4>
-                    <p>${result.zone}</p>
-                    <p class="race-time">Time: ${window.tournamentManager.formatTime(result.lapTime)}</p>
-                </div>
-                <div class="race-points">+${result.pointsEarned} pts</div>
-            </div>
+            <tr class="${positionClass}">
+                <td class="results-position">${positionBadge}</td>
+                <td class="results-player">${result.player}</td>
+                <td class="results-zone">${result.zone}</td>
+                <td class="results-time">${window.tournamentManager.formatTime(result.finishTime || result.lapTime)}</td>
+                <td class="results-points">+${result.pointsEarned}</td>
+                <td class="results-date">${dateStr}</td>
+            </tr>
         `;
     }
 
@@ -600,7 +787,6 @@ class UIManager {
                     <span class="player-status ${player.status}">${player.status}</span>
                 </div>
                 <div class="player-details">
-                    <p><strong>Zone:</strong> ${player.zone}</p>
                     <p><strong>Total Points:</strong> <span class="total-points">${player.totalPoints}</span></p>
                     <p><strong>Races:</strong> ${player.racesParticipated}</p>
                     <p><strong>Best Position:</strong> ${player.bestPosition ? `${player.bestPosition}${this.getOrdinalSuffix(player.bestPosition)}` : 'N/A'}</p>
@@ -618,6 +804,9 @@ class UIManager {
 
     // Get ordinal suffix (1st, 2nd, 3rd, etc.)
     getOrdinalSuffix(num) {
+        if (num === null || num === undefined || isNaN(num)) {
+            return 'th';
+        }
         const j = num % 10;
         const k = num % 100;
         if (j === 1 && k !== 11) return 'st';
@@ -636,6 +825,46 @@ class UIManager {
     showSuccess(message) {
         console.log(message);
         // Could implement a toast notification here
+    }
+
+    getApiBaseUrl() {
+        const { protocol, hostname, origin } = window.location;
+
+        if (hostname === 'buggy-racing-tournament.loca.lt') {
+            return 'https://buggy-racing-api.loca.lt';
+        }
+
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return `${protocol}//${hostname}:1337`;
+        }
+
+        return origin;
+    }
+
+    async showAPIDocumentation() {
+        const apiBase = this.getApiBaseUrl();
+        const docsUrl = `${apiBase}/api/docs`;
+
+        // Try to open API docs directly
+        try {
+            const response = await fetch(docsUrl, { method: 'HEAD', mode: 'cors' });
+            if (response.ok) {
+                window.open(docsUrl, '_blank', 'noopener');
+                return;
+            }
+        } catch (error) {
+            // If HEAD fails, try GET
+            try {
+                const fallbackResponse = await fetch(docsUrl, { method: 'GET', mode: 'cors' });
+                if (fallbackResponse.ok) {
+                    window.open(docsUrl, '_blank', 'noopener');
+                    return;
+                }
+            } catch (secondaryError) {
+                // Fallback to direct navigation
+                window.open(docsUrl, '_blank', 'noopener');
+            }
+        }
     }
 
     // Update zone filter options
@@ -680,6 +909,22 @@ class UIManager {
                 }
             });
         });
+        // External tab triggers (buttons/links)
+        if (this.elements.tabTriggers) {
+            this.elements.tabTriggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabName = trigger.dataset.tabTarget;
+                    if (tabName) {
+                        this.switchTab(tabName);
+                        const section = document.getElementById(tabName);
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        }
 
         // Standings filter
         if (this.elements.standingsFilter) {
@@ -716,8 +961,13 @@ class UIManager {
         if (this.elements.adminLink) {
             this.elements.adminLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Use API endpoint for admin panel in production
-                const adminUrl = window.location.origin + '/admin';
+                // Use appropriate admin panel URL based on environment
+                let adminUrl;
+                if (window.location.hostname === 'buggy-racing-tournament.loca.lt') {
+                    adminUrl = 'https://buggy-racing-api.loca.lt/admin';
+                } else {
+                    adminUrl = window.location.origin + '/admin';
+                }
                 window.open(adminUrl, '_blank');
             });
         }
@@ -726,18 +976,35 @@ class UIManager {
         if (this.elements.apiDocs) {
             this.elements.apiDocs.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Show API documentation in a modal
-                this.showAPIDocumentation();
+                this.showAPIDocumentation().catch((error) => {
+                    console.warn('Failed to open API documentation.', error);
+                    const fallback = `${this.getApiBaseUrl()}/api`;
+                    window.open(fallback, '_blank', 'noopener');
+                });
             });
         }
     }
 
     // Start countdown timer
     startCountdownTimer() {
-        // Update countdown every minute
-        setInterval(() => {
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+        }
+
+        // Immediate update so users see the latest value without delay
+        this.updateCountdown();
+
+        // Update countdown every second for a live experience
+        this.countdownInterval = setInterval(() => {
             this.updateCountdown();
-        }, 60000);
+        }, 1000);
+    }
+
+    stopCountdownTimer() {
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+            this.countdownInterval = null;
+        }
     }
 }
 

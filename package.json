@@ -1,7 +1,7 @@
 {
   "name": "ultimate-buggy-racing",
   "version": "1.0.0",
-  "description": "Ultimate Buggy Racing Tournament Management System",
+  "description": "Ultimate Buggy Lapping Tournament Management System",
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js",
@@ -14,13 +14,13 @@
     "cors": "^2.8.5"
   },
   "keywords": [
-    "racing",
+    "lapping",
     "tournament",
     "management",
     "buggy",
     "championship"
   ],
-  "author": "Ultimate Buggy Racing",
+  "author": "Ultimate Buggy Lapping",
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0"

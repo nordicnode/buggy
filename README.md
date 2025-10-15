@@ -47,6 +47,20 @@ ultimate-buggy-racing/
 
 ## 🚀 Quick Start
 
+### ⚠️ Security Setup (Required First!)
+
+Before starting the server, you **must** set up admin authentication:
+
+```bash
+# Generate a secure token
+./scripts/generate-token.sh
+
+# Or manually:
+export ADMIN_TOKEN="$(openssl rand -hex 32)"
+```
+
+See [ADMIN_SETUP.md](./ADMIN_SETUP.md) for detailed instructions.
+
 ### Local Development
 
 1. **Backend Setup**:
@@ -54,6 +68,8 @@ ultimate-buggy-racing/
    cd backend
    npm start
    ```
+   
+   The server will display your masked admin token on startup.
 
 2. **Frontend Setup**:
    ```bash
@@ -64,20 +80,28 @@ ultimate-buggy-racing/
 3. **Access Points**:
    - Local API: http://localhost:1337/api
    - Tournament Site: http://localhost:8000
+   - Admin Panel: http://localhost:1337/admin.html
 
 ### Vercel Deployment
 
-1. **Install Vercel CLI**:
+1. **Set Environment Variables** (REQUIRED):
+   - Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+   - Add `ADMIN_TOKEN` with a secure token (generate using `./scripts/generate-token.sh`)
+   - Add `NODE_ENV` set to `production`
+
+2. **Install Vercel CLI**:
    ```bash
    npm i -g vercel
    ```
 
-2. **Deploy**:
+3. **Deploy**:
    ```bash
    vercel --prod
    ```
 
-3. **Your Site**: https://ultimate-buggy-racing.vercel.app
+4. **Your Site**: https://ultimate-buggy-racing.vercel.app
+
+⚠️ **Important**: The server will refuse to start in production without a valid `ADMIN_TOKEN`.
 
 ## 🏆 Points System
 
@@ -151,9 +175,35 @@ The `vercel.json` file handles:
 
 ## 🔐 Security
 
-- **Admin Authentication**: Bearer token protection
-- **CORS Configuration**: Secure cross-origin requests
-- **Environment Variables**: Secure credential storage
+### Authentication
+- **Admin Token Required**: Strong token-based authentication
+- **Production Safety**: Server refuses to start without token in production
+- **Token Generation**: Built-in secure token generator
+- **Masked Logging**: Tokens never fully exposed in logs
+
+### Best Practices
+- Use cryptographically secure random tokens (64+ characters)
+- Different tokens for development, staging, and production
+- Store tokens in environment variables or secret managers
+- Rotate tokens every 90 days
+- Never commit tokens to version control
+
+### Documentation
+- **[ADMIN_SETUP.md](./ADMIN_SETUP.md)** - Quick setup guide
+- **[SECURITY.md](./SECURITY.md)** - Comprehensive security documentation
+- **[.env.example](./.env.example)** - Environment variable template
+
+### Quick Security Setup
+```bash
+# Generate secure token
+./scripts/generate-token.sh
+
+# Set token
+export ADMIN_TOKEN="your-generated-token"
+
+# Start server
+cd backend && npm start
+```
 - **HTTPS Only**: Encrypted connections in production
 
 ## 📈 Monitoring

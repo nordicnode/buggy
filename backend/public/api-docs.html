@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Ultimate Buggy Lapping Tournament</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-600: #2563eb;
+            --brand-700: #1e40af;
+            --brand-800: #1e3a8a;
+            --teal-600: #0f766e;
+            --accent-500: #f97316;
+            --accent-600: #ea580c;
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --danger-500: #ef4444;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --border-subtle: #e2e8f0;
+            --surface: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--brand-700), var(--teal-600));
+            color: white;
+            padding: 2.5rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        .main {
+            padding: 3rem 0;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar h2 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius);
+            transition: all 0.15s ease;
+        }
+
+        .sidebar nav a:hover {
+            background: var(--bg-light);
+            color: var(--brand-700);
+            padding-left: 1rem;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .section {
+            margin-bottom: 3.5rem;
+        }
+
+        .section h2 {
+            font-size: 1.75rem;
+            color: var(--brand-800);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--brand-600);
+        }
+
+        .section h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(15, 118, 110, 0.08));
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .endpoint {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .method-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+        }
+
+        .method-get {
+            background: rgba(16, 185, 129, 0.12);
+            color: #059669;
+        }
+
+        .method-post {
+            background: rgba(37, 99, 235, 0.12);
+            color: #1d4ed8;
+        }
+
+        .method-put {
+            background: rgba(245, 158, 11, 0.12);
+            color: #d97706;
+        }
+
+        .method-delete {
+            background: rgba(239, 68, 68, 0.12);
+            color: #dc2626;
+        }
+
+        .endpoint-path {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .admin-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .endpoint-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .endpoint-section {
+            margin-top: 1.25rem;
+        }
+
+        .endpoint-section h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            overflow-x: auto;
+            line-height: 1.6;
+            border: 1px solid #334155;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+        }
+
+        .param-table th {
+            background: var(--bg-light);
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        .param-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.9rem;
+        }
+
+        .param-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .param-name {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--brand-700);
+        }
+
+        .param-type {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--teal-600);
+        }
+
+        .param-required {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .param-optional {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .info-box {
+            background: rgba(37, 99, 235, 0.06);
+            border-left: 4px solid var(--brand-600);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.5rem 0;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.06);
+            border-left: 4px solid var(--warning-500);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--bg-dark);
+            color: #94a3b8;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .section h2 {
+                font-size: 1.4rem;
+            }
+
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>🏁 API Documentation</h1>
+            <p>Ultimate Buggy Lapping Tournament REST API</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="two-column">
+                <aside class="sidebar">
+                    <h2>Contents</h2>
+                    <nav>
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#authentication">Authentication</a></li>
+                            <li><a href="#tournaments">Tournaments</a></li>
+                            <li><a href="#points-config">Points Config</a></li>
+                            <li><a href="#players">Players</a></li>
+                            <li><a href="#zones">Zones</a></li>
+                            <li><a href="#race-results">Race Results</a></li>
+                            <li><a href="#lap-times">Lap Times</a></li>
+                            <li><a href="#utilities">Utilities</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <div class="content">
+                    <!-- Overview -->
+                    <section id="overview" class="section">
+                        <h2>Overview</h2>
+                        <div class="intro-box">
+                            <p>
+                                The Ultimate Buggy Lapping Tournament API provides comprehensive endpoints for managing 
+                                tournament data, player statistics, zone information, and race results. All responses 
+                                follow a Strapi-compatible JSON format for consistency.
+                            </p>
+                        </div>
+                        <div class="info-box">
+                            <p><strong>Base URL:</strong> <code>http://localhost:1337</code> (development)</p>
+                            <p><strong>Content-Type:</strong> <code>application/json</code></p>
+                            <p><strong>Response Format:</strong> Strapi-compatible JSON with <code>data</code> wrapper</p>
+                        </div>
+                    </section>
+
+                    <!-- Authentication -->
+                    <section id="authentication" class="section">
+                        <h2>Authentication</h2>
+                        <p>Admin endpoints require authentication via an admin token passed in the <code>Authorization</code> header.</p>
+                        
+                        <div class="endpoint-section">
+                            <h4>Header Format</h4>
+                            <div class="code-block">
+                                <pre>Authorization: Bearer YOUR_ADMIN_TOKEN</pre>
+                            </div>
+                        </div>
+
+                        <div class="warning-box">
+                            <p><strong>⚠️ Security Note:</strong> Admin endpoints modify critical tournament data. Ensure your admin token is kept secure and never committed to version control.</p>
+                        </div>
+
+                        <div class="endpoint-section">
+                            <h4>Setting Admin Token</h4>
+                            <p>Set the <code>ADMIN_TOKEN</code> environment variable on your server:</p>
+                            <div class="code-block">
+                                <pre>export ADMIN_TOKEN="your-secure-token-here"</pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tournaments -->
+                    <section id="tournaments" class="section">
+                        <h2>Tournaments</h2>
+
+                        <!-- GET Tournament -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/tournaments</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve the current tournament information including title, dates, prizes, rules, and registration details.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "data": {
+    "id": 1,
+    "attributes": {
+      "title": "Ultimate Buggy Lapping Championship",
+      "description": "8-week championship series",
+      "start_date": "2025-01-15T00:00:00.000Z",
+      "end_date": "2025-03-12T00:00:00.000Z",
+      "is_active": true,
+      "total_weeks": 8,
+      "prize_info": "Prize pool details...",
+      "rules": "Tournament rules and regulations...",
+      "registration_info": "How to register...",
+      "stream_url": "https://...",
+      "discord_url": "https://...",
+      "points_config": { ... }
+    }
+  }
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PUT Tournament -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-put">PUT</span>
+                                <span class="endpoint-path">/api/tournaments/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Update tournament information. Requires admin authentication.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Path Parameters</h4>
+                                <table class="param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="param-name">id</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td>Tournament ID</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "title": "Updated Tournament Title",
+  "description": "New description",
+  "start_date": "2025-01-20T00:00:00.000Z",
+  "end_date": "2025-03-20T00:00:00.000Z",
+  "prize_info": "Updated prize information",
+  "rules": "Updated rules"
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Points Configuration -->
+                    <section id="points-config" class="section">
+                        <h2>Points Configuration</h2>
+
+                        <!-- GET Points Config -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/points-config</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve the current points configuration for race positions.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "data": {
+    "1": 10,
+    "2": 9,
+    "3": 8,
+    "4": 7,
+    "5": 6,
+    "6": 5,
+    "7": 4,
+    "8": 3,
+    "9": 2,
+    "10": 1,
+    "default": 1
+  }
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PUT Points Config -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-put">PUT</span>
+                                <span class="endpoint-path">/api/points-config</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Update the points configuration. Automatically recalculates all player statistics.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "pointsConfig": {
+    "1": 25,
+    "2": 18,
+    "3": 15,
+    "default": 1
+  }
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Players -->
+                    <section id="players" class="section">
+                        <h2>Players</h2>
+
+                        <!-- GET Players -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/players</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve all players with their statistics and standings.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "name": "Player Name",
+        "zone": "Zone 1",
+        "status": "active",
+        "total_points": 45,
+        "races_participated": 5,
+        "best_lap_time": "2:34.567",
+        "best_finish_time_ms": 154567,
+        "position": 1
+      }
+    }
+  ]
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- POST Player -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-post">POST</span>
+                                <span class="endpoint-path">/api/players</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Create a new player.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <table class="param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="param-name">name</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Player name</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">zone</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>Home zone</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">status</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>Player status (default: "active")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PUT Player -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-put">PUT</span>
+                                <span class="endpoint-path">/api/players/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Update an existing player's information.</p>
+                        </div>
+
+                        <!-- DELETE Player -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-delete">DELETE</span>
+                                <span class="endpoint-path">/api/players/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Delete a player. Also removes all associated race results.</p>
+                        </div>
+                    </section>
+
+                    <!-- Zones -->
+                    <section id="zones" class="section">
+                        <h2>Zones</h2>
+
+                        <!-- GET Zones -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/zones</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve all zones with map information and scheduling details.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Query Parameters</h4>
+                                <table class="param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="param-name">filters[is_active][$eq]</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td>Filter by active status ("true" or "false")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "name": "Zone 1",
+        "map_name": "Dust Devil",
+        "week_number": 1,
+        "is_active": true,
+        "difficulty": "Beginner",
+        "description": "Zone description...",
+        "map_info": "Map details...",
+        "map_image_url": "https://...",
+        "race_count": 8
+      }
+    }
+  ]
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- POST Zone -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-post">POST</span>
+                                <span class="endpoint-path">/api/zones</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Create a new zone.</p>
+                        </div>
+
+                        <!-- PUT Zone -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-put">PUT</span>
+                                <span class="endpoint-path">/api/zones/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Update zone information.</p>
+                        </div>
+
+                        <!-- DELETE Zone -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-delete">DELETE</span>
+                                <span class="endpoint-path">/api/zones/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Delete a zone. Also removes all associated race results.</p>
+                        </div>
+
+                        <!-- Scrape Map -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-post">POST</span>
+                                <span class="endpoint-path">/api/zones/scrape-map</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Scrape map information from a URL using Puppeteer.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "url": "https://example.com/map-page"
+}</pre>
+                                </div>
+                            </div>
+
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "map_info": "Extracted map information...",
+  "map_image_url": "https://..."
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Race Results -->
+                    <section id="race-results" class="section">
+                        <h2>Race Results</h2>
+
+                        <!-- GET Race Results -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/race-results</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve all race results with player and zone relationships.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "data": [
+    {
+      "id": 1,
+      "attributes": {
+        "position": 1,
+        "points_earned": 10,
+        "lap_time": "2:34.567",
+        "finish_time": "2:34.567",
+        "finish_time_ms": 154567,
+        "race_date": "2025-01-15T00:00:00.000Z",
+        "player": {
+          "data": {
+            "id": 1,
+            "attributes": { "name": "Player Name" }
+          }
+        },
+        "zone": {
+          "data": {
+            "id": 1,
+            "attributes": { "name": "Zone 1" }
+          }
+        }
+      }
+    }
+  ]
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- POST Race Result -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-post">POST</span>
+                                <span class="endpoint-path">/api/race-results</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Create a new race result. Automatically updates player statistics.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <table class="param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="param-name">player_id</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Player ID</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">zone_id</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Zone ID</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">finish_time</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Time in MM:SS.mmm format</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">position</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>Finishing position (auto-calculated if not provided)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">race_date</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>ISO 8601 date string</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POST Bulk Race Results -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-post">POST</span>
+                                <span class="endpoint-path">/api/race-results/bulk</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Create multiple race results at once with automatic position calculation based on finish times.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Request Body</h4>
+                                <table class="param-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="param-name">zone_id</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Zone ID for the race</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">week_number</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>Week number (default: 1)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">race_date</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>ISO 8601 date string</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">results</span></td>
+                                            <td><span class="param-type">array</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Array of result objects</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">results[].player_id</span></td>
+                                            <td><span class="param-type">integer</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Player ID</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">results[].finish_time</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-required">Required</span></td>
+                                            <td>Time in MM:SS.mmm format</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="param-name">results[].notes</span></td>
+                                            <td><span class="param-type">string</span></td>
+                                            <td><span class="param-optional">Optional</span></td>
+                                            <td>Notes for this result</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="endpoint-section">
+                                <h4>Example Request</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "zone_id": 1,
+  "week_number": 3,
+  "race_date": "2025-01-20T00:00:00.000Z",
+  "results": [
+    {
+      "player_id": 1,
+      "finish_time": "01:23.456"
+    },
+    {
+      "player_id": 2,
+      "finish_time": "01:25.789"
+    },
+    {
+      "player_id": 3,
+      "finish_time": "01:22.123"
+    }
+  ]
+}</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <p><strong>Note:</strong> Positions are automatically calculated based on finish times. The fastest time gets position 1, second fastest gets position 2, etc.</p>
+                            </div>
+                        </div>
+
+                        <!-- PUT Race Result -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-put">PUT</span>
+                                <span class="endpoint-path">/api/race-results/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Update a race result. Recalculates affected player statistics.</p>
+                        </div>
+
+                        <!-- DELETE Race Result -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-delete">DELETE</span>
+                                <span class="endpoint-path">/api/race-results/:id</span>
+                                <span class="admin-badge">🔒 Admin</span>
+                            </div>
+                            <p class="endpoint-description">Delete a race result. Recalculates affected player statistics.</p>
+                        </div>
+                    </section>
+
+                    <!-- Lap Times -->
+                    <section id="lap-times" class="section">
+                        <h2>Lap Times</h2>
+
+                        <!-- GET Lap Times -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/lap-times</span>
+                            </div>
+                            <p class="endpoint-description">Retrieve lap time records. Currently returns empty array (reserved for future use).</p>
+                        </div>
+                    </section>
+
+                    <!-- Utilities -->
+                    <section id="utilities" class="section">
+                        <h2>Utilities</h2>
+
+                        <!-- Health Check -->
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method-badge method-get">GET</span>
+                                <span class="endpoint-path">/api/health</span>
+                            </div>
+                            <p class="endpoint-description">Health check endpoint to verify API availability.</p>
+                            
+                            <div class="endpoint-section">
+                                <h4>Response Example</h4>
+                                <div class="code-block">
+                                    <pre>{
+  "status": "ok",
+  "message": "Tournament API is running"
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Ultimate Buggy Lapping Tournament. Built with Express.js.</p>
+        </div>
+    </footer>
+</body>
+</html>

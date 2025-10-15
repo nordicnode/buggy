@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Ultimate Buggy Racing Tournament API",
+  "description": "Ultimate Buggy Lapping Tournament API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

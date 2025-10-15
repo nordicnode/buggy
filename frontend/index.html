@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ultimate Buggy Racing Tournament - Professional racing championship management">
-    <meta name="keywords" content="buggy racing, tournament, championship, racing management">
-    <title>🏁 Ultimate Buggy Racing</title>
+    <meta name="description" content="Ultimate Buggy Lapping Tournament - Professional lapping championship management">
+    <meta name="keywords" content="buggy lapping, tournament, championship, lapping management">
+    <title>Ultimate Buggy Lapping</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,13 +16,37 @@
     <link rel="stylesheet" href="css/styles-organized.css">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏁</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='20' height='20' fill='%23000'/><rect x='30' y='10' width='20' height='20' fill='%23fff'/><rect x='50' y='10' width='20' height='20' fill='%23000'/><rect x='70' y='10' width='20' height='20' fill='%23fff'/><rect x='90' y='10' width='10' height='20' fill='%23000'/><rect x='10' y='30' width='20' height='20' fill='%23fff'/><rect x='30' y='30' width='20' height='20' fill='%23000'/><rect x='50' y='30' width='20' height='20' fill='%23fff'/><rect x='70' y='30' width='20' height='20' fill='%23000'/><rect x='90' y='30' width='10' height='20' fill='%23fff'/><rect x='10' y='50' width='20' height='20' fill='%23000'/><rect x='30' y='50' width='20' height='20' fill='%23fff'/><rect x='50' y='50' width='20' height='20' fill='%23000'/><rect x='70' y='50' width='20' height='20' fill='%23fff'/><rect x='90' y='50' width='10' height='20' fill='%23000'/><rect x='10' y='70' width='20' height='20' fill='%23fff'/><rect x='30' y='70' width='20' height='20' fill='%23000'/><rect x='50' y='70' width='20' height='20' fill='%23fff'/><rect x='70' y='70' width='20' height='20' fill='%23000'/><rect x='90' y='70' width='10' height='20' fill='%23fff'/><rect x='0' y='10' width='10' height='80' fill='%23666'/></svg>">
 </head>
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
-            <div class="loading-flag">🏁</div>
+            <div class="loading-flag">
+                <svg class="checkered-flag-icon loading-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="4" height="4" fill="currentColor"/>
+                    <rect x="7" y="3" width="4" height="4" fill="white"/>
+                    <rect x="11" y="3" width="4" height="4" fill="currentColor"/>
+                    <rect x="15" y="3" width="4" height="4" fill="white"/>
+                    <rect x="19" y="3" width="2" height="4" fill="currentColor"/>
+                    <rect x="3" y="7" width="4" height="4" fill="white"/>
+                    <rect x="7" y="7" width="4" height="4" fill="currentColor"/>
+                    <rect x="11" y="7" width="4" height="4" fill="white"/>
+                    <rect x="15" y="7" width="4" height="4" fill="currentColor"/>
+                    <rect x="19" y="7" width="2" height="4" fill="white"/>
+                    <rect x="3" y="11" width="4" height="4" fill="currentColor"/>
+                    <rect x="7" y="11" width="4" height="4" fill="white"/>
+                    <rect x="11" y="11" width="4" height="4" fill="currentColor"/>
+                    <rect x="15" y="11" width="4" height="4" fill="white"/>
+                    <rect x="19" y="11" width="2" height="4" fill="currentColor"/>
+                    <rect x="3" y="15" width="4" height="4" fill="white"/>
+                    <rect x="7" y="15" width="4" height="4" fill="currentColor"/>
+                    <rect x="11" y="15" width="4" height="4" fill="white"/>
+                    <rect x="15" y="15" width="4" height="4" fill="currentColor"/>
+                    <rect x="19" y="15" width="2" height="4" fill="white"/>
+                    <path d="M2 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
             <h2>Loading Tournament...</h2>
             <div class="loading-bar"></div>
         </div>
@@ -33,18 +57,44 @@
         <div class="container">
             <div class="header-content">
                 <a href="#" class="logo">
-                    <span class="logo-flag">🏁</span>
+                    <span class="logo-flag">
+                        <svg class="checkered-flag-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="4" height="4" fill="currentColor"/>
+                            <rect x="7" y="3" width="4" height="4" fill="white"/>
+                            <rect x="11" y="3" width="4" height="4" fill="currentColor"/>
+                            <rect x="15" y="3" width="4" height="4" fill="white"/>
+                            <rect x="19" y="3" width="2" height="4" fill="currentColor"/>
+                            <rect x="3" y="7" width="4" height="4" fill="white"/>
+                            <rect x="7" y="7" width="4" height="4" fill="currentColor"/>
+                            <rect x="11" y="7" width="4" height="4" fill="white"/>
+                            <rect x="15" y="7" width="4" height="4" fill="currentColor"/>
+                            <rect x="19" y="7" width="2" height="4" fill="white"/>
+                            <rect x="3" y="11" width="4" height="4" fill="currentColor"/>
+                            <rect x="7" y="11" width="4" height="4" fill="white"/>
+                            <rect x="11" y="11" width="4" height="4" fill="currentColor"/>
+                            <rect x="15" y="11" width="4" height="4" fill="white"/>
+                            <rect x="19" y="11" width="2" height="4" fill="currentColor"/>
+                            <rect x="3" y="15" width="4" height="4" fill="white"/>
+                            <rect x="7" y="15" width="4" height="4" fill="currentColor"/>
+                            <rect x="11" y="15" width="4" height="4" fill="white"/>
+                            <rect x="15" y="15" width="4" height="4" fill="currentColor"/>
+                            <rect x="19" y="15" width="2" height="4" fill="white"/>
+                            <path d="M2 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                     <div>
-                        <h1>ULTIMATE BUGGY RACING</h1>
-                        <p class="logo-subtitle">Tournament Management System</p>
+                        <h1 id="header-title">ULTIMATE BUGGY LAPPING</h1>
+                        <p class="logo-subtitle" id="header-subtitle">Tournament Management System</p>
                     </div>
                 </a>
 
                 <nav class="nav">
                     <button class="nav-btn active" data-tab="overview">Overview</button>
+                    <button class="nav-btn" data-tab="prizes">Prizes</button>
+                    <button class="nav-btn" data-tab="rules">Rules</button>
                     <button class="nav-btn" data-tab="standings">Standings</button>
-                    <button class="nav-btn" data-tab="zones">Zones</button>
                     <button class="nav-btn" data-tab="results">Results</button>
+                    <button class="nav-btn" data-tab="zones">Zones</button>
                     <button class="nav-btn" data-tab="players">Players</button>
                 </nav>
             </div>
@@ -56,7 +106,7 @@
         <div class="container">
             <div class="status-content">
                 <span class="status-indicator" id="tournament-status">Active</span>
-                <span class="status-text" id="tournament-info">Ultimate Buggy Racing Championship 2025</span>
+                <span class="status-text" id="tournament-info">Ultimate Buggy Lapping Championship 2025</span>
                 <span class="countdown" id="tournament-countdown"></span>
             </div>
         </div>
@@ -69,130 +119,272 @@
         <section id="overview" class="tab-content active">
             <!-- Hero Section -->
             <section class="section">
-                <div class="hero-section">
-                    <div class="hero-content">
-                        <h2 class="hero-title">8 Weeks. 8 Zones. 1 Champion.</h2>
-                        <p class="hero-subtitle" id="tournament-description">
-                            The most demanding buggy racing championship is here.
-                            Test your skills across 8 unique zones and compete for the ultimate prize.
-                        </p>
+                <div class="hero-section-clean">
+                    <div class="hero-content-wrapper">
+                        <!-- Main Hero Content -->
+                        <div class="hero-main-content">
+                            <div class="hero-headline">
+                                <h2 class="hero-title-clean">8 Weeks. 8 Zones. 1 Champion.</h2>
+                                <p class="hero-description" id="tournament-description">
+                                    The most demanding buggy lapping championship.
+                                </p>
+                            </div>
+                            
+                            <div class="hero-schedule">
+                                <div class="schedule-item">
+                                    <span class="schedule-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <polyline points="12 6 12 12 16 14"/>
+                                        </svg>
+                                    </span>
+                                    <div class="schedule-info">
+                                        <span class="schedule-label">Start Date</span>
+                                        <span class="schedule-value" id="start-date">TBD</span>
+                                    </div>
+                                </div>
+                                <div class="schedule-item">
+                                    <span class="schedule-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                    </span>
+                                    <div class="schedule-info">
+                                        <span class="schedule-label">End Date</span>
+                                        <span class="schedule-value" id="end-date">TBD</span>
+                                    </div>
+                                </div>
+                                <div class="schedule-item current-week-highlight">
+                                    <span class="schedule-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                        </svg>
+                                    </span>
+                                    <div class="schedule-info">
+                                        <span class="schedule-label">Current Week</span>
+                                        <span class="schedule-value" id="current-week">1/8</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <div class="tournament-dates">
-                            <div class="date-item">
-                                <span class="date-label">Start Date</span>
-                                <span class="date-value" id="start-date">TBD</span>
+                        <!-- Tournament Stats Panel -->
+                        <aside class="hero-stats-panel">
+                            <div class="stats-panel-accent"></div>
+                            <div class="stats-panel-content">
+                                <div class="stats-panel-header">
+                                    <h3 class="stats-panel-title">Live Tournament Stats</h3>
+                                </div>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-players">0</div>
+                                        <div class="stat-label">Active Lappers</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-zones">8</div>
+                                        <div class="stat-label">Total Zones</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="total-races">0</div>
+                                        <div class="stat-label">Races Completed</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="date-item">
-                                <span class="date-label">End Date</span>
-                                <span class="date-value" id="end-date">TBD</span>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Zone & Insights -->
+            <section class="section overview-panels">
+                <div class="overview-grid">
+                    <div class="current-zone-panel">
+                        <div class="current-zone-card-compact">
+                            <div class="zone-status-badge">
+                                <span class="zone-pulse"></span>
+                                <span>LIVE</span>
                             </div>
-                            <div class="date-item">
-                                <span class="date-label">Week</span>
-                                <span class="date-value" id="current-week">1/8</span>
+                            <div class="current-zone-content">
+                                <div class="current-zone-header">
+                                    <h2 class="zone-title">Current Zone: <span id="current-zone-name">Loading...</span></h2>
+                                    <p class="zone-subtitle" id="current-zone-map">Zone Map</p>
+                                </div>
+                                <div class="current-zone-description" id="current-zone-description">Loading zone information...</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="hero-stats">
-                        <div class="stat-card">
-                            <span class="stat-number" id="total-players">0</span>
-                            <span class="stat-label">Racers</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number" id="total-zones">8</span>
-                            <span class="stat-label">Zones</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number" id="total-races">0</span>
-                            <span class="stat-label">Races</span>
+                    <div class="insights-column">
+                        <div class="info-cards-grid">
+                            <article id="registration-section" class="info-card join-card" style="display: none;">
+                                <div class="info-card-accent"></div>
+                                <div class="info-card-content">
+                                    <div class="info-card-header">
+                                        <h3 class="info-card-title">How to Join</h3>
+                                        <span class="info-card-badge">Open Registration</span>
+                                    </div>
+                                    <div class="info-card-body">
+                                        <div id="tournament-registration">
+                                            <p>Loading registration information...</p>
+                                        </div>
+                                        <div class="community-links-compact" id="community-links">
+                                            <a href="#" id="stream-link" target="_blank" class="link-button" style="display: none;">
+                                                <svg class="link-svg-icon" viewBox="0 0 16 16" fill="currentColor">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                                </svg>
+                                                <span>Watch Stream</span>
+                                            </a>
+                                            <a href="#" id="discord-link" target="_blank" class="link-button" style="display: none;">
+                                                <svg class="link-svg-icon" viewBox="0 0 16 16" fill="currentColor">
+                                                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019z"/>
+                                                </svg>
+                                                <span>Join Discord</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Current Zone -->
-            <section class="section">
-                <div class="current-zone-section">
-                    <h3>Current Zone: <span id="current-zone-name">Loading...</span></h3>
-                    <div class="current-zone-card">
-                        <div class="zone-info">
-                            <h4 id="current-zone-map">Zone Map</h4>
-                            <p id="current-zone-description">Loading zone information...</p>
-                        </div>
-                        <div class="zone-image" id="current-zone-image">
-                            🗺️
-                        </div>
-                    </div>
-                </div>
-            </section>
+        </section>
 
-            <!-- Tournament Information -->
-            <section class="section">
+        <!-- Prizes Tab -->
+        <section id="prizes" class="tab-content">
+            <div class="section">
                 <div class="section-header">
-                    <h2>Tournament Information</h2>
-                    <p class="section-description">Everything you need to know about the championship</p>
+                    <h2>Championship Prizes</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>🏆 Prizes</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="tournament-prizes">
-                                <p>Loading prize information...</p>
+                
+                <div class="prizes-container">
+                    <!-- Podium Section -->
+                    <div class="podium-section">
+                        <h3 class="podium-title">Podium Finishers</h3>
+                        <div class="podium-grid">
+                            <!-- Second Place -->
+                            <div class="podium-card second-place">
+                                <div class="podium-position">
+                                    <svg class="position-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="8" r="6" fill="#6b7280"/>
+                                        <text x="12" y="12" text-anchor="middle" font-size="8" font-weight="bold" fill="white">2</text>
+                                    </svg>
+                                </div>
+                                <div class="podium-content">
+                                    <h4 class="podium-rank">2nd Place</h4>
+                                    <div class="podium-prize">90,000 TBUX</div>
+                                    <div class="podium-bonus">Championship Swag</div>
+                                </div>
+                                <div class="podium-pillar silver"></div>
+                            </div>
+
+                            <!-- First Place (Center) -->
+                            <div class="podium-card first-place">
+                                <div class="podium-position">
+                                    <svg class="position-icon champion" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="8" r="7" fill="#FFD700"/>
+                                        <text x="12" y="12" text-anchor="middle" font-size="9" font-weight="bold" fill="white">1</text>
+                                    </svg>
+                                </div>
+                                <div class="podium-content">
+                                    <h4 class="podium-rank">Champion</h4>
+                                    <div class="podium-prize">180,000 TBUX</div>
+                                    <div class="podium-bonus">Special Buggy + Swag</div>
+                                </div>
+                                <div class="podium-pillar gold"></div>
+                            </div>
+
+                            <!-- Third Place -->
+                            <div class="podium-card third-place">
+                                <div class="podium-position">
+                                    <svg class="position-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="8" r="6" fill="#92400e"/>
+                                        <text x="12" y="12" text-anchor="middle" font-size="8" font-weight="bold" fill="white">3</text>
+                                    </svg>
+                                </div>
+                                <div class="podium-content">
+                                    <h4 class="podium-rank">3rd Place</h4>
+                                    <div class="podium-prize">45,000 TBUX</div>
+                                    <div class="podium-bonus">Championship Swag</div>
+                                </div>
+                                <div class="podium-pillar bronze"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📋 Rules & Regulations</h3>
+
+                    <!-- Finalists Section -->
+                    <div class="finalists-section">
+                        <div class="finalists-card">
+                            <div class="finalists-header">
+                                <h3 class="finalists-title">
+                                    <svg class="finalists-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                                    </svg>
+                                    Top Finalists
+                                </h3>
+                                <span class="finalists-badge">4th - 8th Place</span>
+                            </div>
+                            <div class="finalists-content">
+                                <div class="finalists-prize">
+                                    <span class="finalists-amount">20,000 TBUX</span>
+                                    <span class="finalists-plus">+</span>
+                                    <span class="finalists-bonus">Exclusive Championship Swag</span>
+                                </div>
+                                <p class="finalists-note">Awarded to all qualifying finalists who complete the championship</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div id="tournament-rules">
+                    </div>
+
+                    <!-- Dynamic Prize Info -->
+                    <div class="prize-details-section">
+                        <div class="prize-details-card">
+                            <div class="prize-details-header">
+                                <h3 class="prize-details-title">Prize Distribution Details</h3>
+                            </div>
+                            <div class="prize-details-content" id="tournament-prizes">
+                                <p>Loading additional prize information...</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Rules Tab -->
+        <section id="rules" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Tournament Rules &amp; Regulations</h2>
+                </div>
+                
+                <div class="rules-container">
+                    <article class="rules-card">
+                        <div class="rules-card-accent"></div>
+                        <div class="rules-card-content">
+                            <div class="rules-card-header">
+                                <h3 class="rules-card-title">
+                                    <svg class="rules-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 11l3 3L22 4"/>
+                                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                                    </svg>
+                                    Championship Rules
+                                </h3>
+                                <span class="rules-card-badge">Official Rulebook</span>
+                            </div>
+                            <div class="rules-card-body" id="tournament-rules">
                                 <p>Loading tournament rules...</p>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-            </section>
-
-            <!-- Registration Section -->
-            <section class="section registration-section" id="registration-section" style="display: none;">
-                <div class="section-header">
-                    <h2>🎯 How to Join</h2>
-                    <p class="section-description">Get started with the tournament</p>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div id="tournament-registration">
-                            <p>Loading registration information...</p>
-                        </div>
-                        <div class="community-links" id="community-links">
-                            <a href="#" id="stream-link" target="_blank" class="btn btn-primary" style="display: none;">
-                                📺 Watch Live
-                            </a>
-                            <a href="#" id="discord-link" target="_blank" class="btn btn-secondary" style="display: none;">
-                                💬 Join Discord
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recent Activity -->
-            <section class="section">
-                <div class="section-header">
-                    <h2>Recent Race Results</h2>
-                    <p class="section-description">Latest performances from the tournament</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="recent-results">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <p class="text-tertiary">Loading recent results...</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </section>
 
         <!-- Standings Tab -->
@@ -200,25 +392,31 @@
             <div class="section">
                 <div class="section-header">
                     <h2>Tournament Standings</h2>
-                    <p class="section-description">Current rankings and performance metrics</p>
                     <div class="view-controls">
                         <select id="standings-filter" class="btn btn-secondary">
                             <option value="all">All Players</option>
                             <option value="top10">Top 10</option>
-                            <option value="active">Active Racers</option>
+                            <option value="active">Active Lappers</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body p-0">
+                        <div class="form-legend" role="note" aria-label="Form legend">
+                            <span class="form-legend-label">Form Legend</span>
+                            <div class="form-legend-items">
+                                <span class="form-legend-item"><span class="form-dot win"></span><span>Win</span></span>
+                                <span class="form-legend-item"><span class="form-dot podium"></span><span>Podium Finish</span></span>
+                                <span class="form-legend-item"><span class="form-dot points"></span><span>Points Finish</span></span>
+                            </div>
+                        </div>
                         <div class="overflow-x-auto">
                             <table class="standings-table">
                                 <thead>
                                     <tr class="border-b border-neutral-200">
                                         <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Pos</th>
                                         <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Player</th>
-                                        <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Zone</th>
                                         <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Points</th>
                                         <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Races</th>
                                         <th class="text-left px-6 py-3 text-xs font-medium text-neutral-500 uppercase tracking-wider">Best</th>
@@ -227,7 +425,7 @@
                                 </thead>
                                 <tbody id="standings-body">
                                     <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center text-neutral-500">
+                                        <td colspan="6" class="px-6 py-12 text-center text-neutral-500">
                                             Loading standings...
                                         </td>
                                     </tr>
@@ -239,30 +437,11 @@
             </div>
         </section>
 
-        <!-- Zones Tab -->
-        <section id="zones" class="tab-content">
-            <div class="section">
-                <div class="section-header">
-                    <h2>Tournament Zones</h2>
-                    <p class="section-description">8 unique zones, 8 weeks of racing</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="zones-grid">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <p class="text-tertiary">Loading zones...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Results Tab -->
         <section id="results" class="tab-content">
             <div class="section">
                 <div class="section-header">
                     <h2>Race Results</h2>
-                    <p class="section-description">Complete race history and performances</p>
                     <div class="view-controls">
                         <select id="results-week-filter" class="btn btn-secondary">
                             <option value="all">All Weeks</option>
@@ -291,12 +470,28 @@
             </div>
         </section>
 
+        <!-- Zones Tab -->
+        <section id="zones" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Tournament Zones</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="zones-grid">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="text-tertiary">Loading zones...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Players Tab -->
         <section id="players" class="tab-content">
             <div class="section">
                 <div class="section-header">
                     <h2>Tournament Players</h2>
-                    <p class="section-description">Competitors and their statistics</p>
                     <div class="search-bar">
                         <input type="text" id="player-search" class="w-full md:w-80" placeholder="Search players...">
                     </div>
@@ -318,7 +513,12 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <span class="logo-flag">🏁</span>
+                    <span class="logo-flag">
+                        <svg class="flag-icon" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3v18M3 3l9 4-9 4m0-8l9 4v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="12" y="3" width="9" height="8" fill="currentColor" opacity="0.2"/>
+                        </svg>
+                    </span>
                     <div>
                         <h3>BUGGY RACING</h3>
                         <p>Ultimate Tournament System</p>
@@ -345,7 +545,7 @@
                 </div>
 
                 <div class="footer-info">
-                    <p class="text-sm text-neutral-400">© 2025 Ultimate Buggy Racing</p>
+                    <p class="text-sm text-neutral-400">© 2025 Ultimate Buggy Lapping</p>
                     <p class="text-xs text-neutral-500">Professional tournament management</p>
                 </div>
             </div>

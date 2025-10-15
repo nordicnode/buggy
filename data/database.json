@@ -2,71 +2,62 @@
   "tournament": {
     "id": 1,
     "attributes": {
-      "title": "Ultimate Buggy Racing Championship",
-      "description": "8-week tournament featuring the best buggy racers competing across 8 unique zones for the championship title. Test your skills, strategy, and consistency in this demanding racing series.",
+      "title": "Buggy Lapping",
+      "description": "Think you have the skill and consistency to dominate the track? This is your chance to prove it. Compete in the season's most demanding racing series and fight for the championship title.",
       "start_date": "2025-10-18T19:00:00.000Z",
-      "end_date": "2025-12-06T19:00:00.000Z",
-      "status": "active",
+      "end_date": "2025-12-06T20:00:00.000Z",
+      "status": "upcoming",
       "total_weeks": 8,
-      "prizes": "🏆 1st Place: 180,000 TBUX + Special Buggy + Swag | 🥈 2nd Place: 90,000 TBUX + Swag | 🥉 3rd Place: 45,000 TBUX + Swag | 🏅 Finalists: 20,000 TBUX + Swag",
-      "rules": "**Tournament Rules:**\n\n1. **Race Format**: Weekly races with point-based scoring system\n2. **Points Distribution**: 1st (10pts), 2nd (9pts), 3rd (8pts), 4th (7pts), 5th (6pts), 6th (5pts), 7th (4pts), 8th (3pts), 9th+ (1pt)\n3. **Zone Rotation**: Each week features a different zone with unique challenges\n4. **Sportsmanship**: Respectful conduct required at all times\n5. **Technical Issues**: Race results may be reviewed for fairness\n6. **Participation**: Minimum 4 races required to qualify for final standings\n7. **Tiebreakers**: Head-to-head results, then best finishing positions",
-      "registration_info": "**How to Join:**\n\n• Registration opens: October 1st, 2025\n• Requirements: Valid racing license, approved buggy\n• Entry fee: 5,000 TBUX\n• Contact tournament admins to register\n• All participants must attend mandatory briefing on October 15th",
-      "contact_info": "**Tournament Administration:**\n\n• Head Organizer: RaceMaster\n• Technical Support: SpeedDemon\n• Rules Questions: TurboJudge\n• Emergency Contact: discord.gg/ultimateracing",
-      "stream_url": "https://twitch.tv/ultimateracing",
-      "discord_url": "https://discord.gg/ultimateracing"
+      "prizes": "Stick around for a chance to win 10,000 TBUX in a dice roll after each event.\n\n Final Round Prize Pool! 🏆\n\n🥇 1st Place: Walk away with the grand prize of 180,000 TBUX, a special surprise Buggy, and a loaded swag bag!\n🥈 2nd Place: Score a cool 90,000 TBUX and a swag bag!\n🥉 3rd Place: Grab 45,000 TBUX and a swag bag!\n🏅 4th-10th Place: Nobody leaves empty-handed! All other finalists receive 20,000 TBUX and an awesome swag bag filled with items from top designers!",
+      "rules": "<p><strong>Tournament Rules &amp; Code of Conduct</strong></p><p>• Be Kind &amp; Courteous: Treat participants and staff with respect. Be aware of fellow lappers.</p><p>• Zone Rules: No yelling, griefing, or arguing with event staff/participants.</p><p>• Zero-Tolerance: Violations result in immediate disqualification and tournament ban.</p><p>• A loaner buggy will be available to those who need it.</p><p><br></p><p><strong>On-Track &amp; Racing Rules</strong></p><p>• Starting Gate: Wait 10+ seconds for lapper ahead before starting to avoid bumping.</p><p>• Track Exit: After flipping, head to nearest zone line to exit safely.</p><p>• Technical Difficulties: If disconnected, rejoin and retry once resolved.</p><p>• Warming up is encouraged, but please keep your practice times off the leaderboard.</p><p>• No blocking the track. Please give other lappers space to do their laps.</p>",
+      "registration_info": "To join the Buggy Lapping Tournament, please find the latest event details by checking my profile under the \"Buggy Lapping Tournament\" group or by visiting the billboard in the Dust Devil zone. Once you have the information, you can sign up at the designated location and time.",
+      "contact_info": "For more details, contact jen_007",
+      "stream_url": "",
+      "discord_url": "",
+      "points_config": {
+        "1": 10,
+        "2": 9,
+        "3": 8,
+        "4": 7,
+        "5": 6,
+        "6": 5,
+        "7": 4,
+        "8": 3,
+        "9": 2,
+        "10": 1,
+        "default": 1
+      }
     }
   },
   "players": [
     {
       "id": 1,
       "attributes": {
-        "name": "SpeedyGonzalez",
-        "zone_assignment": "Zone 1 - Starting Circuit",
+        "name": "MLJMikey",
+        "zone_assignment": "",
         "status": "active",
-        "total_points": 45,
-        "races_participated": 6,
-        "best_lap_time": "1:23.456",
+        "total_points": 0,
+        "races_participated": 0,
+        "best_lap_time": "01:20.000",
         "race_results": {
-          "data": [
-            { "id": 1, "attributes": { "position": 1, "points_earned": 10, "week_number": 1 } },
-            { "id": 2, "attributes": { "position": 2, "points_earned": 9, "week_number": 2 } },
-            { "id": 3, "attributes": { "position": 1, "points_earned": 10, "week_number": 3 } }
-          ]
-        }
+          "data": []
+        },
+        "best_finish_time_ms": 80000
       }
     },
     {
       "id": 2,
       "attributes": {
-        "name": "TurboTurtle",
-        "zone_assignment": "Zone 2 - Technical Twists",
+        "name": "jen_007",
+        "zone_assignment": "",
         "status": "active",
-        "total_points": 38,
-        "races_participated": 6,
-        "best_lap_time": "1:25.123",
+        "total_points": 0,
+        "races_participated": 0,
+        "best_lap_time": "02:31.000",
         "race_results": {
-          "data": [
-            { "id": 4, "attributes": { "position": 3, "points_earned": 8, "week_number": 1 } },
-            { "id": 5, "attributes": { "position": 1, "points_earned": 10, "week_number": 4 } }
-          ]
-        }
-      }
-    },
-    {
-      "id": 3,
-      "attributes": {
-        "name": "LightningLapper",
-        "zone_assignment": "Zone 3 - Speed Straight",
-        "status": "active",
-        "total_points": 42,
-        "races_participated": 6,
-        "best_lap_time": "1:21.789",
-        "race_results": {
-          "data": [
-            { "id": 6, "attributes": { "position": 2, "points_earned": 9, "week_number": 1 } },
-            { "id": 7, "attributes": { "position": 1, "points_earned": 10, "week_number": 2 } }
-          ]
-        }
+          "data": []
+        },
+        "best_finish_time_ms": 151000
       }
     }
   ],
@@ -74,11 +65,24 @@
     {
       "id": 1,
       "attributes": {
-        "name": "Zone 1 - Starting Circuit",
-        "map_name": "Alpine Circuit",
-        "map_url": "",
-        "map_info": null,
-        "description": "A challenging introductory course with sweeping turns and technical sections. Perfect for setting the tone of the championship.",
+        "name": "Zone 1",
+        "map_name": "Dust Devil",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10714117",
+        "map_info": "",
+        "map_data": {
+          "title": "The Random Buggy Zone",
+          "description": "Have fun!",
+          "location": "Dust Devil",
+          "region": "Cangrejo, South",
+          "environment": "Romantic Sunset",
+          "weather": "None",
+          "image_url": "funzone-isl_dustdevil_190x135.jpg",
+          "map_image_url": "funzone-isl_dustdevil_fp.jpg",
+          "owner": "Jen_007",
+          "owner_id": "55417936",
+          "oid": "10714117"
+        },
+        "description": "Have fun!",
         "week_number": 1,
         "is_active": false
       }
@@ -86,11 +90,24 @@
     {
       "id": 2,
       "attributes": {
-        "name": "Zone 2 - Technical Twists",
-        "map_name": "Mountain Switchbacks",
-        "map_url": "",
-        "map_info": "",
-        "description": "Tight hairpin turns and elevation changes test precision and control. Only the most skilled racers can master this course.",
+        "name": "Zone 2",
+        "map_name": "NeNe's Wake",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10705138",
+        "map_info": "The Floor is Lava | NeNe's Wake, Monkey Ruins | Environment: New Dawn | Weather: None | Zone Owner: Jen_007 | Description: This FunZone lies in a green valley created by the flow of lava.",
+        "map_data": {
+          "title": "The Floor is Lava",
+          "description": "This FunZone lies in a green valley created by the flow of lava.",
+          "location": "NeNe's Wake",
+          "region": "Monkey Ruins",
+          "environment": "New Dawn",
+          "weather": "None",
+          "image_url": "funzones_neneswake_190x135.jpg",
+          "map_image_url": "funzones_neneswake_fp.jpg",
+          "owner": "Jen_007",
+          "owner_id": "55417936",
+          "oid": "10705138"
+        },
+        "description": "This FunZone lies in a green valley created by the flow of lava.",
         "week_number": 2,
         "is_active": false
       }
@@ -98,11 +115,24 @@
     {
       "id": 3,
       "attributes": {
-        "name": "Zone 3 - Speed Straight",
-        "map_name": "Desert Highway",
-        "map_url": "",
-        "map_info": "",
-        "description": "High-speed straights and gentle curves where top speed and drafting skills are paramount.",
+        "name": "Zone 3",
+        "map_name": "Light Lanes",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10701870",
+        "map_info": "Light Lanes | Light Lanes, Saja | Zone Owner: there_hoods | Description: Race at the speed of light in Saja.",
+        "map_data": {
+          "title": "Light Lanes",
+          "description": "Race at the speed of light in Saja.",
+          "location": "Light Lanes",
+          "region": "Saja",
+          "environment": "",
+          "weather": "",
+          "image_url": "funzone_lightlanes_190x135.jpg",
+          "map_image_url": "funzone_lightlanes_fp.jpg",
+          "owner": "there_hoods",
+          "owner_id": "100005",
+          "oid": "10701870"
+        },
+        "description": "Race at the speed of light in Saja.",
         "week_number": 3,
         "is_active": false
       }
@@ -110,11 +140,24 @@
     {
       "id": 4,
       "attributes": {
-        "name": "Zone 4 - Urban Challenge",
-        "map_name": "City Streets",
-        "map_url": "",
-        "map_info": "",
-        "description": "Navigating tight city corners and avoiding urban obstacles in this technical street circuit.",
+        "name": "Zone 4",
+        "map_name": "Thunder Beach",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10714341",
+        "map_info": "SWM Raceway | Thunder Beach, Cangrejo, South | Environment: New Dawn | Weather: None | Zone Owner: xxxevilxxx | Description: Buggy Only",
+        "map_data": {
+          "title": "SWM Raceway",
+          "description": "Buggy Only",
+          "location": "Thunder Beach",
+          "region": "Cangrejo, South",
+          "environment": "New Dawn",
+          "weather": "None",
+          "image_url": "funzone-isl_thunderbeach_190x135.jpg",
+          "map_image_url": "funzone-isl_thunderbeach_fp.jpg",
+          "owner": "xxxevilxxx",
+          "owner_id": "18537452",
+          "oid": "10714341"
+        },
+        "description": "Buggy Only",
         "week_number": 4,
         "is_active": false
       }
@@ -122,11 +165,24 @@
     {
       "id": 5,
       "attributes": {
-        "name": "Zone 5 - Water Hazard",
-        "map_name": "Coastal Drive",
-        "map_url": "",
-        "map_info": "",
-        "description": "Wet conditions and slippery surfaces around the coastal route test handling and control.",
+        "name": "Zone 5",
+        "map_name": "Samsyn Speedway",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10717963",
+        "map_info": "Samsyn's Watch Your Speedway | Samsyn Speedway, Frosty | Environment: Romantic Sunset | Zone Owner: there_hoods | Description: Burn rubber and melt the ice at Samsyn Speedway.",
+        "map_data": {
+          "title": "Samsyn's Watch Your Speedway",
+          "description": "Burn rubber and melt the ice at Samsyn Speedway.",
+          "location": "Samsyn Speedway",
+          "region": "Frosty",
+          "environment": "Romantic Sunset",
+          "weather": "",
+          "image_url": "funzone_samsynspeedway_190x135.jpg",
+          "map_image_url": "funzone_samsynspeedway_fp.jpg",
+          "owner": "there_hoods",
+          "owner_id": "100005",
+          "oid": "10717963"
+        },
+        "description": "Burn rubber and melt the ice at Samsyn Speedway.",
         "week_number": 5,
         "is_active": false
       }
@@ -134,11 +190,12 @@
     {
       "id": 6,
       "attributes": {
-        "name": "Zone 6 - Mountain Climb",
-        "map_name": "Alpine Ascent",
+        "name": "TBA",
+        "map_name": "TBA",
         "map_url": "",
         "map_info": "",
-        "description": "Steep gradients and hairpin mountain passes challenge power and braking techniques.",
+        "map_data": null,
+        "description": "TBA",
         "week_number": 6,
         "is_active": false
       }
@@ -146,11 +203,24 @@
     {
       "id": 7,
       "attributes": {
-        "name": "Zone 7 - Forest Run",
-        "map_name": "Woodland Trail",
-        "map_url": "",
-        "map_info": "",
-        "description": "Narrow forest paths and unpredictable terrain require precision and adaptability.",
+        "name": "Zone 7",
+        "map_name": "Benda Beach",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10717863",
+        "map_info": "Benda Beach Raceway | Benda Beach, Comet | Zone Owner: there_hoods | Description: Speed through the sand dunes at this ideal island raceway.",
+        "map_data": {
+          "title": "Benda Beach Raceway",
+          "description": "Speed through the sand dunes at this ideal island raceway.",
+          "location": "Benda Beach",
+          "region": "Comet",
+          "environment": "",
+          "weather": "",
+          "image_url": "funzone_bendabeach_190x135.jpg",
+          "map_image_url": "funzone_bendabeach_fp.jpg",
+          "owner": "there_hoods",
+          "owner_id": "100005",
+          "oid": "10717863"
+        },
+        "description": "Speed through the sand dunes at this ideal island raceway.",
         "week_number": 7,
         "is_active": false
       }
@@ -158,76 +228,41 @@
     {
       "id": 8,
       "attributes": {
-        "name": "Zone 8 - Championship Chase",
-        "map_name": "Victory Lane",
-        "map_url": "",
-        "map_info": "",
-        "description": "The ultimate test of skill, nerve, and strategy. Every mistake could be championship-ending.",
+        "name": "Zone 8",
+        "map_name": "Dune Valley",
+        "map_url": "https://webapps.prod.there.com/funzone/funzone?op=view&id=10701501",
+        "map_info": "DUNE VALLEY RACEWAY | Buggy Arena, Dune Valley | Environment: New Dawn | Zone Owner: rockin_ran1 | Description: Buggy and TUV Tracks",
+        "map_data": {
+          "title": "DUNE VALLEY RACEWAY",
+          "description": "Buggy and TUV Tracks",
+          "location": "Buggy Arena",
+          "region": "Dune Valley",
+          "environment": "New Dawn",
+          "weather": "",
+          "image_url": ".",
+          "map_image_url": "funzones_buggyarena_fp.jpg",
+          "owner": "rockin_ran1",
+          "owner_id": "13907290",
+          "oid": "10701501"
+        },
+        "description": "Buggy and TUV Tracks",
         "week_number": 8,
-        "is_active": true
+        "is_active": false
       }
     }
   ],
-  "raceResults": [
-    {
-      "id": 1,
-      "attributes": {
-        "position": 1,
-        "points_earned": 10,
-        "lap_time": "1:23.456",
-        "race_date": "2025-10-18T20:00:00.000Z",
-        "week_number": 1,
-        "player": { "data": { "id": 1, "attributes": { "name": "SpeedyGonzalez" } } },
-        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
-      }
-    },
-    {
-      "id": 2,
-      "attributes": {
-        "position": 2,
-        "points_earned": 9,
-        "lap_time": "1:24.123",
-        "race_date": "2025-10-18T20:00:00.000Z",
-        "week_number": 1,
-        "player": { "data": { "id": 3, "attributes": { "name": "LightningLapper" } } },
-        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
-      }
-    },
-    {
-      "id": 3,
-      "attributes": {
-        "position": 3,
-        "points_earned": 8,
-        "lap_time": "1:25.456",
-        "race_date": "2025-10-18T20:00:00.000Z",
-        "week_number": 1,
-        "player": { "data": { "id": 2, "attributes": { "name": "TurboTurtle" } } },
-        "zone": { "data": { "id": 1, "attributes": { "name": "Zone 1 - Starting Circuit" } } }
-      }
-    },
-    {
-      "id": 4,
-      "attributes": {
-        "position": 1,
-        "points_earned": 10,
-        "lap_time": "1:26.789",
-        "race_date": "2025-10-25T20:00:00.000Z",
-        "week_number": 2,
-        "player": { "data": { "id": 2, "attributes": { "name": "TurboTurtle" } } },
-        "zone": { "data": { "id": 2, "attributes": { "name": "Zone 2 - Technical Twists" } } }
-      }
-    },
-    {
-      "id": 5,
-      "attributes": {
-        "position": 2,
-        "points_earned": 9,
-        "lap_time": "1:27.123",
-        "race_date": "2025-10-25T20:00:00.000Z",
-        "week_number": 2,
-        "player": { "data": { "id": 1, "attributes": { "name": "SpeedyGonzalez" } } },
-        "zone": { "data": { "id": 2, "attributes": { "name": "Zone 2 - Technical Twists" } } }
-      }
-    }
-  ]
+  "raceResults": [],
+  "pointsConfig": {
+    "1": 10,
+    "2": 9,
+    "3": 8,
+    "4": 7,
+    "5": 6,
+    "6": 5,
+    "7": 4,
+    "8": 3,
+    "9": 2,
+    "10": 1,
+    "default": 1
+  }
 }

@@ -8,31 +8,58 @@ const DataManager = require('./dataManager');
 const app = express();
 const dataManager = new DataManager();
 
-// Simple password protection for admin panel
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'racing2025';
+// Generate a secure random token for development if none is provided
+function generateSecureToken() {
+  const crypto = require('crypto');
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// Admin password protection
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || null;
+
+// Validate admin token configuration on startup
+if (!ADMIN_TOKEN) {
+  console.error('\n⚠️  ═══════════════════════════════════════════════════════════════════');
+  console.error('⚠️  SECURITY WARNING: No ADMIN_TOKEN environment variable set!');
+  console.error('⚠️  ═══════════════════════════════════════════════════════════════════\n');
+  
+  // Exit in production, generate temporary token in development
+  if (process.env.NODE_ENV === 'production') {
+    console.error('❌ Refusing to start in production without ADMIN_TOKEN. Exiting...\n');
+    process.exit(1);
+  } else {
+    const tempToken = generateSecureToken();
+    console.warn('⚠️  Generated temporary token for development:');
+    console.warn(`⚠️  ${tempToken}`);
+    console.warn('⚠️  This token is only valid for this session.\n');
+    process.env.ADMIN_TOKEN = tempToken;
+  }
+}
+
+const ADMIN_PASSWORD = process.env.ADMIN_TOKEN;
+
+// Log admin token info on startup (masked)
+if (ADMIN_PASSWORD) {
+  const maskedToken = ADMIN_PASSWORD.substring(0, 8) + '...' + ADMIN_PASSWORD.substring(ADMIN_PASSWORD.length - 4);
+  console.log(`🔐 Admin authentication enabled (Token: ${maskedToken})`);
+}
 
 // Middleware to check admin password
 const checkAdminAuth = (req, res, next) => {
-  console.log('🔐 Authentication middleware called for:', req.method, req.path);
   const authHeader = req.headers.authorization;
-  console.log('🔑 Auth header:', authHeader ? 'Present' : 'Missing');
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('❌ No Bearer token found');
     res.setHeader('WWW-Authenticate', 'Bearer realm="Admin Panel"');
     return res.status(401).json({ error: 'Authentication required' });
   }
 
   const token = authHeader.substring(7);
-  console.log('🎫 Token received:', token);
-  console.log('🔒 Expected token:', ADMIN_PASSWORD);
 
   if (token !== ADMIN_PASSWORD) {
-    console.log('❌ Invalid token');
+    console.warn('❌ Admin auth failed: invalid credentials provided');
     return res.status(401).json({ error: 'Invalid authentication credentials' });
   }
 
-  console.log('✅ Authentication successful');
   next();
 };
 

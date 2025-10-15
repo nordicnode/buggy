@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏁 Tournament Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css">
     <style>
         * {
             margin: 0;
@@ -203,21 +204,27 @@
         .status-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: white;
-            border: 1px solid #e5e7eb;
+            gap: 0.55rem;
+            padding: 0.45rem 1rem;
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             border-radius: 9999px;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            color: #fff;
             margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+            backdrop-filter: blur(4px);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
         }
 
         .status-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #10b981;
+            background: #86efac;
+            box-shadow: 0 0 0 4px rgba(134, 239, 172, 0.3);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -368,6 +375,23 @@
             margin-bottom: 1.5rem;
         }
 
+        .points-config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .points-config-grid .form-group {
+            margin-bottom: 0;
+        }
+
+        .points-config-helper {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
@@ -393,6 +417,31 @@
         .form-textarea {
             resize: vertical;
             min-height: 80px;
+        }
+        .quill-editor {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background: white;
+        }
+        .quill-editor .ql-toolbar {
+            border: none;
+            border-bottom: 1px solid #d1d5db;
+            background: #f9fafb;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        .quill-editor .ql-container {
+            border: none;
+            font-family: inherit;
+        }
+        .quill-editor .ql-editor {
+            min-height: 180px;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+        .hidden-textarea {
+            display: none;
         }
 
         .form-actions {
@@ -564,7 +613,7 @@
             <div class="login-card">
                 <div class="login-header">
                     <h1>🏁 Admin Login</h1>
-                    <p>Ultimate Buggy Racing Tournament</p>
+                    <p>Ultimate Buggy Lapping Tournament</p>
                 </div>
                 <form id="loginForm">
                     <div class="form-group">
@@ -587,7 +636,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <h1>🏁 Tournament Admin Panel</h1>
-                    <p>Ultimate Buggy Racing Championship Management System</p>
+                    <p>Ultimate Buggy Lapping Championship Management System</p>
                     <div class="status-indicator">
                         <span class="status-dot"></span>
                         <span>API Server Running</span>
@@ -660,7 +709,10 @@
             <div id="results" class="tab-content">
                 <div class="section-header">
                     <h2>Race Results</h2>
-                    <button class="add-button">+ Add Result</button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="add-button">+ Add Result</button>
+                        <button class="add-button" style="background: linear-gradient(135deg, #7C3AED, #6D28D9);">📋 Bulk Add Results</button>
+                    </div>
                 </div>
 
                 <div class="data-grid" id="results-list">
@@ -672,7 +724,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Ultimate Buggy Racing Tournament System</p>
+            <p>&copy; 2025 Ultimate Buggy Lapping Tournament System</p>
             <p style="margin-top: 0.5rem; color: #9ca3af; font-size: 0.875rem;">
                 Powered by Express.js API | Real-time Tournament Management
             </p>
@@ -684,7 +736,7 @@
     <div id="tournamentModal" class="modal">
         <div class="modal-content" style="max-width: 700px;">
             <div class="modal-header">
-                <h3 class="modal-title">Edit Tournament</h3>
+                <h3 class="modal-title" id="tournamentModalTitle">Edit Tournament</h3>
                 <button class="modal-close" onclick="closeModal('tournamentModal')">&times;</button>
             </div>
             <form id="tournamentForm">
@@ -726,7 +778,32 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="tournamentRules">Rules & Regulations</label>
-                    <textarea id="tournamentRules" class="form-textarea" rows="5" placeholder="Tournament rules and regulations..."></textarea>
+                    <div class="quill-editor">
+                        <div id="tournamentRulesToolbar">
+                            <span class="ql-formats">
+                                <select class="ql-header">
+                                    <option value="1"></option>
+                                    <option value="2"></option>
+                                    <option selected></option>
+                                </select>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                            </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                                <button class="ql-clean"></button>
+                            </span>
+                        </div>
+                        <div id="tournamentRulesEditor"></div>
+                    </div>
+                    <textarea id="tournamentRules" class="hidden-textarea" placeholder="Tournament rules and regulations..."></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="tournamentRegistration">Registration Information</label>
@@ -865,12 +942,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="resultPosition">Position *</label>
-                    <input type="number" id="resultPosition" class="form-input" min="1" required>
+                    <label class="form-label" for="resultLapTime">Finish Time (MM:SS.mmm) *</label>
+                    <input type="text" id="resultLapTime" class="form-input" placeholder="e.g., 01:23.456" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="resultLapTime">Lap Time</label>
-                    <input type="text" id="resultLapTime" class="form-input" placeholder="e.g., 1:23.456">
+                    <label class="form-label" for="resultPosition">Position (Optional - auto-calculated if blank)</label>
+                    <input type="number" id="resultPosition" class="form-input" min="1" placeholder="Leave blank to auto-calculate">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="resultWeek">Week Number</label>
@@ -892,24 +969,106 @@
         </div>
     </div>
 
+    <!-- Bulk Results Modal -->
+    <div id="bulkResultModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Bulk Add Race Results</h3>
+                <button class="modal-close" onclick="closeModal('bulkResultModal')">&times;</button>
+            </div>
+            <form id="bulkResultForm">
+                <div class="form-group">
+                    <label class="form-label">Race Information</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label class="form-label" for="bulkZone">Zone *</label>
+                            <select id="bulkZone" class="form-select" required>
+                                <option value="">Select a zone</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="bulkWeek">Week</label>
+                            <input type="number" id="bulkWeek" class="form-input" min="1" max="8" value="1" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="bulkDate">Date</label>
+                            <input type="date" id="bulkDate" class="form-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Race Results (Enter finish times only - positions will be calculated automatically)</label>
+                    <div id="bulkResultsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;">
+                        <!-- Player entries will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal('bulkResultModal')">Cancel</button>
+                    <button type="submit" class="btn-save" style="background: linear-gradient(135deg, #7C3AED, #6D28D9);">Save All Results</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Notification -->
     <div id="notification" class="notification"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 
     <script>
         // Advanced admin interface with CRUD functionality
         class AdminPanel {
             constructor() {
-                this.apiBase = 'http://localhost:1337/api';
+                this.apiBase = this.resolveApiBase();
                 this.authToken = localStorage.getItem('adminAuthToken') || null;
                 this.data = {
                     tournament: null,
                     players: [],
                     zones: [],
-                    results: []
+                    results: [],
+                    pointsConfig: {}
                 };
                 this.currentEditId = null;
                 this.currentEditType = null;
+                this.listenersBound = false;
+                this.rulesEditor = null;
                 this.init();
+            }
+
+            getDefaultPointsConfig() {
+                return {
+                    1: 10,
+                    2: 9,
+                    3: 8,
+                    4: 7,
+                    5: 6,
+                    6: 5,
+                    7: 4,
+                    8: 3,
+                    9: 2,
+                    10: 1,
+                    default: 1
+                };
+            }
+
+            resolveApiBase() {
+                const { protocol, origin, hostname } = window.location;
+
+                if (protocol === 'file:') {
+                    return 'http://localhost:1337/api';
+                }
+
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    return `${protocol}//${hostname}:1337/api`;
+                }
+
+                if (hostname === 'buggy-racing-tournament.loca.lt') {
+                    return 'https://buggy-racing-api.loca.lt/api';
+                }
+
+                return `${origin}/api`;
             }
 
             async init() {
@@ -921,9 +1080,15 @@
                 }
 
                 this.setupEventListeners();
+                this.initializeRichTextEditors();
             }
 
             setupEventListeners() {
+                if (this.listenersBound) {
+                    return;
+                }
+                this.listenersBound = true;
+
                 // Login form
                 document.getElementById('loginForm').addEventListener('submit', (e) => this.handleLogin(e));
 
@@ -939,13 +1104,15 @@
                 document.querySelector('#overview .add-button').addEventListener('click', () => this.openTournamentModal());
                 document.querySelector('#players .add-button').addEventListener('click', () => this.openPlayerModal());
                 document.querySelector('#zones .add-button').addEventListener('click', () => this.openZoneModal());
-                document.querySelector('#results .add-button').addEventListener('click', () => this.openResultModal());
+                document.querySelector('#results .add-button:first-of-type').addEventListener('click', () => this.openResultModal());
+                document.querySelector('#results .add-button:last-of-type').addEventListener('click', () => this.openBulkResultModal());
 
                 // Form submissions
                 document.getElementById('tournamentForm').addEventListener('submit', (e) => this.handleTournamentSubmit(e));
                 document.getElementById('playerForm').addEventListener('submit', (e) => this.handlePlayerSubmit(e));
                 document.getElementById('zoneForm').addEventListener('submit', (e) => this.handleZoneSubmit(e));
                 document.getElementById('resultForm').addEventListener('submit', (e) => this.handleResultSubmit(e));
+                document.getElementById('bulkResultForm').addEventListener('submit', (e) => this.handleBulkResultSubmit(e));
 
                 // Tournament date change listeners for auto-calculation
                 document.getElementById('tournamentStartDate')?.addEventListener('change', () => this.calculateAndUpdateWeeks());
@@ -961,6 +1128,53 @@
                 });
             }
 
+            initializeRichTextEditors() {
+                if (this.rulesEditor || typeof Quill === 'undefined') {
+                    if (typeof Quill === 'undefined') {
+                        console.warn('Quill library not available. Tournament rules editor will fall back to plain text.');
+                    }
+                    return;
+                }
+
+                const editorElement = document.getElementById('tournamentRulesEditor');
+                const hiddenField = document.getElementById('tournamentRules');
+
+                if (!editorElement || !hiddenField) {
+                    return;
+                }
+
+                this.rulesEditor = new Quill(editorElement, {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: '#tournamentRulesToolbar'
+                    }
+                });
+
+                this.rulesEditor.on('text-change', () => {
+                    const html = this.sanitizeEditorContent(this.rulesEditor.root.innerHTML);
+                    hiddenField.value = html;
+                });
+
+                // Initialise hidden field with empty value
+                hiddenField.value = '';
+            }
+
+            sanitizeEditorContent(html) {
+                if (!html) return '';
+
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+
+                const hasMedia = temp.querySelector('img, video, iframe, embed');
+                const text = temp.textContent.replace(/\s+/g, '').replace(/\uFEFF/g, '').trim();
+
+                if (!text && !hasMedia) {
+                    return '';
+                }
+
+                return html;
+            }
+
             // Authentication methods
             showLoginScreen() {
                 document.getElementById('loginScreen').style.display = 'flex';
@@ -970,6 +1184,7 @@
             showAdminPanel() {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
+                this.initializeRichTextEditors();
                 console.log('📊 Showing admin panel, loading data...');
                 this.loadData().then(() => {
                     console.log('✅ Admin panel loaded successfully');
@@ -1093,12 +1308,15 @@
                     this.data.players = players.data || [];
                     this.data.zones = zones.data || [];
                     this.data.results = results.data || [];
+                    this.data.pointsConfig = this.data.tournament?.attributes?.points_config
+                        || this.getDefaultPointsConfig();
 
                     console.log('✅ Data loaded successfully:', {
                         tournament: this.data.tournament?.attributes?.title,
                         playersCount: this.data.players.length,
                         zonesCount: this.data.zones.length,
-                        resultsCount: this.data.results.length
+                        resultsCount: this.data.results.length,
+                        pointsConfig: this.data.pointsConfig
                     });
 
                     this.updateSelectOptions();
@@ -1147,10 +1365,27 @@
                     completedRaces: this.data.results.length,
                     totalPrizePool: this.calculatePrizePool(tournament.prizes)
                 };
+                const config = this.data.pointsConfig || {};
+                const ordinal = (n) => {
+                    const mod100 = n % 100;
+                    if (mod100 >= 11 && mod100 <= 13) {
+                        return `${n}th`;
+                    }
+                    switch (n % 10) {
+                        case 1: return `${n}st`;
+                        case 2: return `${n}nd`;
+                        case 3: return `${n}rd`;
+                        default: return `${n}th`;
+                    }
+                };
 
                 // Format text with line breaks
                 const formatText = (text) => {
                     if (!text) return '';
+                    const trimmed = text.trim();
+                    if (trimmed.startsWith('<')) {
+                        return trimmed;
+                    }
                     return text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 };
 
@@ -1229,6 +1464,32 @@
                     ` : ''}
 
                     <div class="data-card">
+                        <h3 class="card-title">🏁 Points Configuration</h3>
+                        <form id="pointsConfigForm" class="points-config-form">
+                            <div class="points-config-grid">
+                                ${Array.from({ length: 10 }, (_, index) => {
+                                    const position = index + 1;
+                                    const key = String(position);
+                                    return `
+                                        <div class="form-group">
+                                            <label class="form-label" for="points-${position}">${ordinal(position)}</label>
+                                            <input type="number" id="points-${position}" name="pos-${position}" class="form-input" min="0" value="${config[key] ?? ''}">
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            <div class="form-group" style="margin-top: 1.5rem;">
+                                <label class="form-label" for="points-default">Default (11th+)</label>
+                                <input type="number" id="points-default" name="default" class="form-input" min="0" value="${config.default ?? 0}">
+                            </div>
+                            <div class="form-actions" style="justify-content: flex-start; margin-top: 1.5rem;">
+                                <button type="submit" class="btn-save" style="padding: 0.65rem 1.5rem;">Save Points</button>
+                            </div>
+                            <p class="points-config-helper">Updates apply immediately and recalibrate player standings.</p>
+                        </form>
+                    </div>
+
+                    <div class="data-card">
                         <h3 class="card-title">📞 Contact & Community</h3>
                         <div class="card-content">
                             ${tournament.contact_info ? `<p><strong>Contact Info:</strong><br>${formatText(tournament.contact_info)}</p>` : ''}
@@ -1247,6 +1508,50 @@
                         </div>
                     </div>
                 `;
+
+                this.bindPointsConfigForm();
+            }
+
+            bindPointsConfigForm() {
+                const form = document.getElementById('pointsConfigForm');
+                if (!form) {
+                    return;
+                }
+                if (!form.dataset.bound) {
+                    form.addEventListener('submit', (event) => this.handlePointsConfigSubmit(event));
+                    form.dataset.bound = 'true';
+                }
+            }
+
+            async handlePointsConfigSubmit(event) {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const formData = new FormData(form);
+                const payload = {};
+
+                for (let position = 1; position <= 10; position += 1) {
+                    const value = Number(formData.get(`pos-${position}`));
+                    payload[position] = Number.isFinite(value) && value >= 0 ? value : 0;
+                }
+
+                const fallback = Number(formData.get('default'));
+                payload.default = Number.isFinite(fallback) && fallback >= 0 ? fallback : 0;
+
+                try {
+                    const response = await fetch(`${this.apiBase}/points-config`, {
+                        method: 'PUT',
+                        headers: this.getAuthHeaders(),
+                        body: JSON.stringify({ pointsConfig: payload })
+                    });
+                    if (!response.ok) throw new Error('Failed to update points configuration');
+                    const data = await response.json();
+                    this.data.pointsConfig = data.data || payload;
+                    await this.loadData();
+                    this.showNotification('Points configuration updated successfully', 'success');
+                } catch (error) {
+                    console.error('Error updating points configuration:', error);
+                    this.showNotification('Failed to update points configuration', 'error');
+                }
             }
 
             calculatePrizePool(prizesText) {
@@ -1337,8 +1642,20 @@
                     <div class="data-grid">
                         ${this.data.zones.map(zone => {
                             const z = zone.attributes;
-                            const difficultyClass = `badge-${z.difficulty}`;
                             const statusClass = z.is_active ? 'badge-active' : 'badge-inactive';
+                            const mapData = this.sanitizeMapData(z);
+                            const zoneSummary = this.getZoneSummary(z, mapData);
+
+                            let mapDetails = '';
+                            if (mapData) {
+                                mapDetails = this.buildMapDetailsBlock(z, mapData, { dense: true, showLink: false });
+                            } else if (z.map_info) {
+                                mapDetails = this.buildMapInfoFallback(z.map_info, z);
+                            }
+
+                            if (!mapDetails) {
+                                mapDetails = '<div style="margin-top:0.75rem; font-size:0.85rem; color:#6b7280;">Map details coming soon.</div>';
+                            }
 
                             return `
                                 <div class="data-card">
@@ -1350,17 +1667,10 @@
                                         </div>
                                     </div>
                                     <div class="card-content">
-                                        <p><strong>Map:</strong> ${z.map_name || 'N/A'}</p>
                                         <p><strong>Status:</strong> <span class="card-badge ${statusClass}">${z.is_active ? 'Active' : 'Inactive'}</span></p>
-                                        ${z.map_url ? `<p><strong>Map URL:</strong> <a href="${z.map_url}" target="_blank" style="color: #3b82f6; text-decoration: none;">${z.map_url}</a></p>` : ''}
-                                        ${z.map_info ? `
-                                            <div style="margin-top: 0.75rem; padding: 0.75rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 0.375rem;">
-                                                <p style="margin: 0; font-weight: 600; color: #0c4a6e;">📍 Map Information:</p>
-                                                <p style="margin: 0.25rem 0 0 0; color: #0f172a;">${z.map_info}</p>
-                                            </div>
-                                        ` : ''}
-                                        ${z.map_data ? this.renderMapData(z.map_data) : ''}
-                                        ${z.description ? `<p style="margin-top: 0.75rem;">${z.description}</p>` : ''}
+                                        ${this.buildZoneMeta(z)}
+                                        ${mapDetails}
+                                        ${zoneSummary ? `<p style="margin-top:0.75rem; color:#374151; line-height:1.6;">${zoneSummary}</p>` : ''}
                                     </div>
                                     <div class="card-stats">
                                         <div class="stat">
@@ -1393,6 +1703,11 @@
                 container.innerHTML = this.data.results.map(result => {
                     const r = result.attributes;
                     const positionClass = r.position <= 3 ? 'badge-active' : 'badge-inactive';
+                    const raceDateObj = r.race_date ? new Date(r.race_date) : null;
+                    const raceDateDisplay = (raceDateObj && !Number.isNaN(raceDateObj.getTime()))
+                        ? raceDateObj.toLocaleDateString()
+                        : 'TBD';
+                    const finishTimeDisplay = r.finish_time || r.lap_time || 'N/A';
 
                     return `
                         <div class="data-card">
@@ -1407,7 +1722,7 @@
                                 <p><strong>Zone:</strong> ${r.zone?.data?.attributes?.name || 'Unknown Zone'}</p>
                                 <p><strong>Position:</strong> <span class="card-badge ${positionClass}">${r.position}${this.getOrdinalSuffix(r.position)}</span></p>
                                 <p><strong>Points Earned:</strong> ${r.points_earned}</p>
-                                <p><strong>Lap Time:</strong> ${r.lap_time || 'N/A'}</p>
+                                <p><strong>Finish Time:</strong> ${finishTimeDisplay}</p>
                             </div>
                             <div class="card-stats">
                                 <div class="stat">
@@ -1416,7 +1731,7 @@
                                 </div>
                                 <div class="stat">
                                     <span class="stat-label">Race Date</span>
-                                    <span class="stat-value">${new Date(r.race_date).toLocaleDateString()}</span>
+                                    <span class="stat-value">${raceDateDisplay}</span>
                                 </div>
                             </div>
                         </div>
@@ -1453,11 +1768,178 @@
                     form.reset();
                     // Update title back to "Add" mode
                     const titleId = modalId.replace('Modal', 'ModalTitle');
-                    document.getElementById(titleId).textContent =
-                        modalId.replace('Modal', '').charAt(0).toUpperCase() +
-                        modalId.replace('Modal', '').slice(1) + ' ' +
-                        (modalId.includes('player') ? 'Player' : modalId.includes('zone') ? 'Zone' : 'Race Result');
+                    const titleElement = document.getElementById(titleId);
+                    if (titleElement) {
+                        let defaultTitle = '';
+                        if (modalId.includes('player')) {
+                            defaultTitle = 'Add Player';
+                        } else if (modalId.includes('zone')) {
+                            defaultTitle = 'Add Zone';
+                        } else if (modalId.includes('result')) {
+                            defaultTitle = 'Add Race Result';
+                        } else if (modalId.includes('tournament')) {
+                            defaultTitle = 'Edit Tournament';
+                        }
+
+                        if (defaultTitle) {
+                            titleElement.textContent = defaultTitle;
+                        }
+                    }
                 }
+            }
+
+            normalizeText(text) {
+                if (!text) return '';
+                return text.replace(/\s+/g, ' ').trim().toLowerCase();
+            }
+
+            sanitizeMapData(zoneAttributes) {
+                if (!zoneAttributes || !zoneAttributes.map_data || typeof zoneAttributes.map_data !== 'object') {
+                    return null;
+                }
+
+                const raw = zoneAttributes.map_data;
+                const sanitized = {};
+                const keys = ['title', 'location', 'region', 'environment', 'weather', 'owner', 'description'];
+
+                keys.forEach(key => {
+                    const value = raw[key];
+                    if (!value || typeof value !== 'string') return;
+                    const trimmed = value.trim();
+                    if (!trimmed) return;
+                    const lower = trimmed.toLowerCase();
+                    if (lower === 'none' || lower === 'n/a') return;
+                    sanitized[key] = trimmed;
+                });
+
+                if (sanitized.description && zoneAttributes.description) {
+                    if (this.normalizeText(sanitized.description) === this.normalizeText(zoneAttributes.description)) {
+                        delete sanitized.description;
+                    }
+                }
+
+                return Object.keys(sanitized).length ? sanitized : null;
+            }
+
+            buildZoneMeta(z) {
+                const items = [
+                    { label: 'Map', value: z.map_name || z.name },
+                    { label: 'Week', value: z.week_number }
+                ];
+
+                const cards = items
+                    .filter(item => item.value !== undefined && item.value !== null && item.value !== '')
+                    .map(item => `
+                        <div style="display:flex; flex-direction:column; gap:0.25rem; padding:0.75rem; background:#f9fafb; border-radius:0.5rem; border:1px solid #e5e7eb;">
+                            <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:#6b7280;">${item.label}</span>
+                            <span style="font-weight:600; color:#111827;">${item.value}</span>
+                        </div>
+                    `).join('');
+
+                const link = z.map_url
+                    ? `<a href="${z.map_url}" target="_blank" style="display:inline-flex; align-items:center; gap:0.4rem; font-size:0.85rem; font-weight:600; color:#2563eb; text-decoration:none;">View Map Details →</a>`
+                    : '';
+
+                return `
+                    <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:0.75rem;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.75rem;">
+                            ${cards}
+                        </div>
+                        ${link ? `<div>${link}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            buildMapDetailsBlock(z, mapData, { dense = false, showLink = true } = {}) {
+                if (!mapData) return '';
+
+                const padding = dense ? '0.75rem' : '1rem';
+                const marginTop = dense ? '0.75rem' : '1rem';
+
+                const rows = [];
+                const location = [mapData.location, mapData.region].filter(Boolean).join(', ');
+                if (location) {
+                    rows.push({ label: 'Location', value: location });
+                }
+                if (mapData.environment) {
+                    rows.push({ label: 'Environment', value: mapData.environment });
+                }
+                if (mapData.weather) {
+                    rows.push({ label: 'Weather', value: mapData.weather });
+                }
+                if (mapData.owner) {
+                    rows.push({ label: 'Owner', value: mapData.owner });
+                }
+
+                const rowsHtml = rows.length
+                    ? `<div style="display:flex; flex-direction:column; gap:0.5rem;">${rows.map(row => `
+                            <div style="display:flex; gap:0.5rem; font-size:0.875rem; color:#374151;">
+                                <span style="font-weight:600; color:#111827;">${row.label}:</span>
+                                <span>${row.value}</span>
+                            </div>
+                        `).join('')}</div>`
+                    : '';
+
+                const description = mapData.description
+                    ? `<div style="margin-top:${rows.length ? '0.75rem' : '0'}; font-size:0.9rem; color:#4b5563; line-height:1.6;">${mapData.description}</div>`
+                    : '';
+
+                return `
+                    <div style="margin-top:${marginTop}; padding:${padding}; background:#fff7ed; border-radius:0.5rem; border:1px solid #fed7aa;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:${(rows.length || mapData.description) ? '0.75rem' : '0'};">
+                            <h4 style="margin:0; font-size:1rem; font-weight:600; color:#c2410c;">🗺️ ${mapData.title || z.map_name || z.name}</h4>
+                            ${showLink && z.map_url ? `<a href="${z.map_url}" target="_blank" style="font-size:0.85rem; font-weight:600; color:#ea580c; text-decoration:none;">Open Map</a>` : ''}
+                        </div>
+                        ${rowsHtml}
+                        ${description}
+                    </div>
+                `;
+            }
+
+            buildMapInfoFallback(mapInfo, z) {
+                if (!mapInfo) return '';
+
+                const segments = mapInfo.includes('|')
+                    ? mapInfo.split('|')
+                    : mapInfo.split(/\r?\n/);
+
+                const zoneSummary = z?.description ? this.normalizeText(z.description) : '';
+
+                const entries = segments
+                    .map(entry => entry.trim())
+                    .filter(Boolean)
+                    .filter(entry => {
+                        const lower = entry.toLowerCase();
+                        if (lower.startsWith('map:')) return false;
+                        if (lower.startsWith('week:')) return false;
+                        if (lower.startsWith('races:')) return false;
+                        const stripped = entry.replace(/^[^:]+:\s*/i, '').trim();
+                        if (stripped && zoneSummary && this.normalizeText(stripped) === zoneSummary) {
+                            return false;
+                        }
+                        return true;
+                    });
+
+                if (!entries.length) return '';
+
+                return `
+                    <div style="margin-top:0.75rem; padding:0.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:0.5rem;">
+                        <h4 style="margin:0 0 0.5rem 0; font-size:0.95rem; font-weight:600; color:#1d4ed8;">🗺️ Map Information</h4>
+                        <ul style="margin:0; padding-left:1.1rem; display:flex; flex-direction:column; gap:0.35rem; font-size:0.85rem; color:#1f2937;">
+                            ${entries.map(entry => `<li>${entry}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            getZoneSummary(z, mapData) {
+                if (!z.description) return '';
+                const summary = z.description.trim();
+                if (!summary) return '';
+                if (mapData?.description && this.normalizeText(mapData.description) === this.normalizeText(summary)) {
+                    return '';
+                }
+                return summary;
             }
 
             // Player CRUD operations
@@ -1500,14 +1982,41 @@
                 return Math.max(1, Math.min(52, weeks)); // Ensure between 1 and 52 weeks
             }
 
+            parseDateInput(value) {
+                if (!value) return null;
+                const parts = value.split('-').map(Number);
+                if (parts.length < 3 || parts.some(part => Number.isNaN(part))) {
+                    return null;
+                }
+
+                const [year, month, day] = parts;
+                return new Date(year, month - 1, day, 12, 0, 0);
+            }
+
+            formatDateForInput(date) {
+                if (!date || Number.isNaN(date.getTime())) {
+                    return '';
+                }
+
+                const year = date.getUTCFullYear();
+                const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(date.getUTCDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
             // Calculate and update weeks when dates change
             calculateAndUpdateWeeks() {
                 const startDateStr = document.getElementById('tournamentStartDate').value;
                 const endDateStr = document.getElementById('tournamentEndDate').value;
 
                 if (startDateStr && endDateStr) {
-                    const startDate = new Date(startDateStr);
-                    const endDate = new Date(endDateStr);
+                    const startDate = this.parseDateInput(startDateStr);
+                    const endDate = this.parseDateInput(endDateStr);
+
+                    if (!startDate || !endDate) {
+                        return;
+                    }
+
                     const weeks = this.calculateWeeks(startDate, endDate);
                     document.getElementById('tournamentWeeks').value = weeks;
                 }
@@ -1519,6 +2028,30 @@
 
                 const modal = document.getElementById('tournamentModal');
                 const form = document.getElementById('tournamentForm');
+                const titleEl = document.getElementById('tournamentModalTitle');
+                if (titleEl) {
+                    titleEl.textContent = this.currentEditId ? 'Edit Tournament' : 'Create Tournament';
+                }
+
+                if (form) {
+                    form.reset();
+                }
+
+                const weeksField = document.getElementById('tournamentWeeks');
+                if (weeksField) {
+                    weeksField.value = 8;
+                }
+
+                const rulesField = document.getElementById('tournamentRules');
+                if (this.rulesEditor) {
+                    this.rulesEditor.setContents([]);
+                    this.rulesEditor.clipboard.dangerouslyPasteHTML('<p><br></p>');
+                    if (rulesField) {
+                        rulesField.value = '';
+                    }
+                } else if (rulesField) {
+                    rulesField.value = '';
+                }
 
                 if (this.data.tournament) {
                     const t = this.data.tournament.attributes;
@@ -1526,24 +2059,34 @@
                     document.getElementById('tournamentDescription').value = t.description;
 
                     // Convert dates to local date format with validation
-                    const startDate = new Date(t.start_date);
-                    const endDate = new Date(t.end_date);
+                    const startDate = t.start_date ? new Date(t.start_date) : null;
+                    const endDate = t.end_date ? new Date(t.end_date) : null;
 
                     // Validate dates and set form values
-                    if (!isNaN(startDate.getTime())) {
-                        document.getElementById('tournamentStartDate').value = startDate.toISOString().slice(0, 10);
-                    }
-
-                    if (!isNaN(endDate.getTime())) {
-                        document.getElementById('tournamentEndDate').value = endDate.toISOString().slice(0, 10);
-                    }
+                    document.getElementById('tournamentStartDate').value = this.formatDateForInput(startDate);
+                    document.getElementById('tournamentEndDate').value = this.formatDateForInput(endDate);
 
                     // Calculate and update weeks
                     this.calculateAndUpdateWeeks();
 
                     document.getElementById('tournamentStatus').value = t.status;
                     document.getElementById('tournamentPrizes').value = t.prizes;
-                    document.getElementById('tournamentRules').value = t.rules || '';
+                    const rulesField = document.getElementById('tournamentRules');
+                    const rulesContent = t.rules || '';
+                    if (this.rulesEditor) {
+                        this.rulesEditor.setContents([]);
+                        if (rulesContent) {
+                            const processedContent = rulesContent.trim().startsWith('<')
+                                ? rulesContent
+                                : `<p>${rulesContent.replace(/\n/g, '<br>')}</p>`;
+                            this.rulesEditor.clipboard.dangerouslyPasteHTML(processedContent);
+                        } else {
+                            this.rulesEditor.clipboard.dangerouslyPasteHTML('<p><br></p>');
+                        }
+                        rulesField.value = this.sanitizeEditorContent(this.rulesEditor.root.innerHTML);
+                    } else {
+                        rulesField.value = rulesContent;
+                    }
                     document.getElementById('tournamentRegistration').value = t.registration_info || '';
                     document.getElementById('tournamentContact').value = t.contact_info || '';
                     document.getElementById('tournamentStream').value = t.stream_url || '';
@@ -1560,12 +2103,30 @@
                 const startDateStr = document.getElementById('tournamentStartDate').value;
                 const endDateStr = document.getElementById('tournamentEndDate').value;
 
-                // Create Date objects and set to noon to avoid timezone issues
-                const startDate = new Date(startDateStr);
-                const endDate = new Date(endDateStr);
+                const startDate = this.parseDateInput(startDateStr);
+                const endDate = this.parseDateInput(endDateStr);
+
+                if (!startDate || !endDate) {
+                    this.showNotification('Please provide valid start and end dates.', 'error');
+                    return;
+                }
+
+                if (endDate < startDate) {
+                    this.showNotification('End date must be later than the start date.', 'error');
+                    return;
+                }
 
                 // Calculate weeks automatically
                 const calculatedWeeks = this.calculateWeeks(startDate, endDate);
+
+                const rulesField = document.getElementById('tournamentRules');
+                let rulesContent = rulesField ? rulesField.value : '';
+                if (this.rulesEditor) {
+                    rulesContent = this.sanitizeEditorContent(this.rulesEditor.root.innerHTML);
+                    if (rulesField) {
+                        rulesField.value = rulesContent;
+                    }
+                }
 
                 const formData = {
                     title: document.getElementById('tournamentTitle').value,
@@ -1575,7 +2136,7 @@
                     status: document.getElementById('tournamentStatus').value,
                     total_weeks: calculatedWeeks,
                     prizes: document.getElementById('tournamentPrizes').value,
-                    rules: document.getElementById('tournamentRules').value,
+                    rules: rulesContent,
                     registration_info: document.getElementById('tournamentRegistration').value,
                     contact_info: document.getElementById('tournamentContact').value,
                     stream_url: document.getElementById('tournamentStream').value,
@@ -1857,28 +2418,6 @@
                 }
             }
 
-            // Render structured map data in zone cards
-            renderMapData(mapData) {
-                if (!mapData) return '';
-
-                let html = '<div style="margin-top: 0.75rem; padding: 0.75rem; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 0.375rem;">';
-                html += '<p style="margin: 0; font-weight: 600; color: #92400e;">🗺️ Detailed Map Information:</p>';
-
-                const details = [];
-                if (mapData.title) details.push(`<strong>Title:</strong> ${mapData.title}`);
-                if (mapData.location || mapData.region) details.push(`<strong>Location:</strong> ${[mapData.location, mapData.region].filter(Boolean).join(', ')}`);
-                if (mapData.environment && mapData.environment !== 'None') details.push(`<strong>Environment:</strong> ${mapData.environment}`);
-                if (mapData.weather && mapData.weather !== 'None') details.push(`<strong>Weather:</strong> ${mapData.weather}`);
-                if (mapData.owner) details.push(`<strong>Owner:</strong> ${mapData.owner}`);
-
-                if (details.length > 0) {
-                    html += `<p style="margin: 0.25rem 0 0 0; color: #78350f; font-size: 0.875rem;">${details.join(' | ')}</p>`;
-                }
-
-                html += '</div>';
-                return html;
-            }
-
             async handleZoneSubmit(e) {
                 e.preventDefault();
 
@@ -1955,8 +2494,9 @@
 
                 // Set current date as default
                 if (!resultId) {
-                    const now = new Date();
-                    document.getElementById('resultDate').value = now.toISOString().slice(0, 10);
+                    const todayString = new Date().toISOString().slice(0, 10);
+                    const defaultDate = this.parseDateInput(todayString);
+                    document.getElementById('resultDate').value = this.formatDateForInput(defaultDate);
                 }
 
                 if (resultId) {
@@ -1966,11 +2506,11 @@
                         document.getElementById('resultPlayer').value = result.attributes.player?.data?.id || '';
                         document.getElementById('resultZone').value = result.attributes.zone?.data?.id || '';
                         document.getElementById('resultPosition').value = result.attributes.position;
-                        document.getElementById('resultLapTime').value = result.attributes.lap_time || '';
+                        document.getElementById('resultLapTime').value = result.attributes.finish_time || result.attributes.lap_time || '';
                         document.getElementById('resultWeek').value = result.attributes.week_number;
 
-                        const raceDate = new Date(result.attributes.race_date);
-                        document.getElementById('resultDate').value = raceDate.toISOString().slice(0, 10);
+                        const raceDate = result.attributes.race_date ? new Date(result.attributes.race_date) : null;
+                        document.getElementById('resultDate').value = this.formatDateForInput(raceDate);
                         document.getElementById('resultNotes').value = result.attributes.notes || '';
                     }
                 } else {
@@ -1991,16 +2531,23 @@
 
                 // Handle date input and set to noon UTC to avoid timezone issues
                 const raceDateStr = document.getElementById('resultDate').value;
-                const raceDate = new Date(raceDateStr);
-                raceDate.setHours(12, 0, 0, 0); // Set to noon UTC
+                let raceDateIso = null;
+                if (raceDateStr) {
+                    const raceDate = this.parseDateInput(raceDateStr);
+                    if (raceDate && !Number.isNaN(raceDate.getTime())) {
+                        raceDateIso = raceDate.toISOString();
+                    }
+                }
+                const finishTime = document.getElementById('resultLapTime').value.trim();
 
                 const formData = {
                     player_id: document.getElementById('resultPlayer').value,
                     zone_id: document.getElementById('resultZone').value,
                     position: document.getElementById('resultPosition').value,
-                    lap_time: document.getElementById('resultLapTime').value,
+                    finish_time: finishTime,
+                    lap_time: finishTime,
                     week_number: document.getElementById('resultWeek').value,
-                    race_date: raceDate.toISOString(),
+                    race_date: raceDateIso,
                     notes: document.getElementById('resultNotes').value
                 };
 
@@ -2054,6 +2601,119 @@
                 } catch (error) {
                     console.error('Error deleting race result:', error);
                     this.showNotification('Failed to delete race result', 'error');
+                }
+            }
+            
+            // Bulk Result Operations
+            openBulkResultModal() {
+                const modal = document.getElementById('bulkResultModal');
+                
+                // Set current date as default
+                const todayString = new Date().toISOString().slice(0, 10);
+                document.getElementById('bulkDate').value = todayString;
+                
+                // Populate zone dropdown
+                const zoneSelect = document.getElementById('bulkZone');
+                zoneSelect.innerHTML = '<option value="">Select a zone</option>';
+                this.data.zones.forEach(zone => {
+                    const option = document.createElement('option');
+                    option.value = zone.id;
+                    option.textContent = zone.attributes.name;
+                    zoneSelect.appendChild(option);
+                });
+                
+                // Populate player list
+                const bulkList = document.getElementById('bulkResultsList');
+                bulkList.innerHTML = '';
+                
+                // Add all active players with finish time inputs
+                this.data.players
+                    .filter(player => player.attributes.status === 'active')
+                    .forEach(player => {
+                        const playerDiv = document.createElement('div');
+                        playerDiv.style.cssText = 'display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 1rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6;';
+                        playerDiv.innerHTML = `
+                            <label style="font-weight: 600;">${player.attributes.name}</label>
+                            <input type="checkbox" id="bulk-player-${player.id}" data-player-id="${player.id}" style="width: 20px; height: 20px;">
+                            <input type="text" id="bulk-time-${player.id}" class="form-input" placeholder="MM:SS.mmm" disabled>
+                        `;
+                        bulkList.appendChild(playerDiv);
+                        
+                        // Enable/disable time input based on checkbox
+                        const checkbox = playerDiv.querySelector(`#bulk-player-${player.id}`);
+                        const timeInput = playerDiv.querySelector(`#bulk-time-${player.id}`);
+                        checkbox.addEventListener('change', () => {
+                            timeInput.disabled = !checkbox.checked;
+                            if (checkbox.checked) {
+                                timeInput.focus();
+                            } else {
+                                timeInput.value = '';
+                            }
+                        });
+                    });
+                
+                this.openModal('bulkResultModal');
+            }
+            
+            async handleBulkResultSubmit(e) {
+                e.preventDefault();
+                
+                const zoneId = document.getElementById('bulkZone').value;
+                const weekNumber = document.getElementById('bulkWeek').value;
+                const raceDate = document.getElementById('bulkDate').value;
+                
+                if (!zoneId) {
+                    this.showNotification('Please select a zone', 'error');
+                    return;
+                }
+                
+                // Collect results from checked players
+                const results = [];
+                const checkboxes = document.querySelectorAll('#bulkResultsList input[type="checkbox"]:checked');
+                
+                for (const checkbox of checkboxes) {
+                    const playerId = checkbox.dataset.playerId;
+                    const timeInput = document.getElementById(`bulk-time-${playerId}`);
+                    const finishTime = timeInput.value.trim();
+                    
+                    if (finishTime) {
+                        results.push({
+                            player_id: playerId,
+                            finish_time: finishTime
+                        });
+                    }
+                }
+                
+                if (results.length === 0) {
+                    this.showNotification('Please select at least one player and enter their finish time', 'error');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`${this.apiBase}/race-results/bulk`, {
+                        method: 'POST',
+                        headers: this.getAuthHeaders(),
+                        body: JSON.stringify({
+                            zone_id: zoneId,
+                            week_number: weekNumber,
+                            race_date: raceDate ? new Date(raceDate + 'T12:00:00Z').toISOString() : new Date().toISOString(),
+                            results: results
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Failed to save bulk results');
+                    }
+                    
+                    const data = await response.json();
+                    await this.loadData();
+                    this.renderTabs();
+                    this.closeModal('bulkResultModal');
+                    this.showNotification(data.message || 'Bulk results added successfully', 'success');
+                } catch (error) {
+                    console.error('Error saving bulk results:', error);
+                    this.showNotification(error.message || 'Failed to save bulk results', 'error');
                 }
             }
 

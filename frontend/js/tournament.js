@@ -7,6 +7,7 @@ class TournamentManager {
         this.raceResults = [];
         this.currentZone = null;
         this.currentWeek = 1;
+        this.pointsConfig = null;
     }
 
     // Initialize tournament data
@@ -44,6 +45,7 @@ class TournamentManager {
         this.currentZone = currentZone;
         this.raceResults = recentResults; // Load race results properly
         this.recentResults = recentResults;
+        this.pointsConfig = tournament?.attributes?.points_config || null;
 
         // Calculate current week based on current zone
         if (currentZone) {
@@ -78,8 +80,12 @@ class TournamentManager {
             const raceResults = playerData.race_results?.data || [];
 
             // Calculate best position
-            const bestPosition = raceResults.length > 0
-                ? Math.min(...raceResults.map(r => r.attributes.position))
+            const validPositions = raceResults
+                .map(r => r.attributes.position)
+                .filter(pos => pos !== null && pos !== undefined && !isNaN(pos));
+            
+            const bestPosition = validPositions.length > 0
+                ? Math.min(...validPositions)
                 : null;
 
             // Calculate recent form (last 3 races)
@@ -124,7 +130,9 @@ class TournamentManager {
             id: result.id,
             position: result.attributes.position,
             pointsEarned: result.attributes.points_earned,
-            lapTime: result.attributes.lap_time,
+            lapTime: result.attributes.finish_time || result.attributes.lap_time,
+            finishTime: result.attributes.finish_time || result.attributes.lap_time,
+            finishTimeMs: result.attributes.finish_time_ms ?? null,
             raceDate: result.attributes.race_date,
             weekNumber: result.attributes.week_number,
             player: result.attributes.player?.data?.attributes?.name || 'Unknown',
@@ -182,7 +190,7 @@ class TournamentManager {
         const term = searchTerm.toLowerCase();
         return (this.standings || []).filter(player =>
             player.name.toLowerCase().includes(term) ||
-            player.zone.toLowerCase().includes(term)
+            (player.zone && player.zone.toLowerCase().includes(term))
         );
     }
 
@@ -200,7 +208,16 @@ class TournamentManager {
 
     // Format date for display
     formatDate(dateString) {
+        if (!dateString) {
+            return 'TBD';
+        }
+
         const date = new Date(dateString);
+
+        if (Number.isNaN(date.getTime())) {
+            return 'TBD';
+        }
+
         return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
@@ -209,8 +226,30 @@ class TournamentManager {
     }
 
     // Format time for display
-    formatTime(timeString) {
-        return timeString || 'N/A';
+    formatTime(timeValue) {
+        if (timeValue === null || timeValue === undefined || timeValue === '') {
+            return 'N/A';
+        }
+        if (typeof timeValue === 'number') {
+            return this.formatMilliseconds(timeValue);
+        }
+        return timeValue;
+    }
+
+    formatMilliseconds(milliseconds) {
+        if (!Number.isFinite(milliseconds) || milliseconds < 0) {
+            return 'N/A';
+        }
+        const totalMs = Math.floor(milliseconds);
+        const hours = Math.floor(totalMs / 3600000);
+        const minutes = Math.floor((totalMs % 3600000) / 60000);
+        const seconds = Math.floor((totalMs % 60000) / 1000);
+        const ms = totalMs % 1000;
+        const pad = (num, size) => String(num).padStart(size, '0');
+        if (hours > 0) {
+            return `${pad(hours, 2)}:${pad(minutes, 2)}:${pad(seconds, 2)}.${pad(ms, 3)}`;
+        }
+        return `${pad(minutes, 2)}:${pad(seconds, 2)}.${pad(ms, 3)}`;
     }
 
     // Calculate countdown to next race
@@ -228,25 +267,52 @@ class TournamentManager {
 
         if (diff <= 0) return null;
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        const parts = [];
 
         if (days > 0) {
-            return `${days}d ${hours}h ${minutes}m`;
-        } else if (hours > 0) {
-            return `${hours}h ${minutes}m`;
-        } else {
-            return `${minutes}m`;
+            parts.push(`${days}d`);
         }
+
+        if (days > 0 || hours > 0) {
+            parts.push(`${hours}h`);
+        }
+
+        parts.push(`${minutes}m`);
+        parts.push(`${seconds}s`);
+
+        return parts.join(' ');
     }
 
     // Get points for position
     getPointsForPosition(position) {
-        const pointsMap = {
-            1: 10, 2: 9, 3: 8, 4: 7, 5: 6, 6: 5, 7: 4, 8: 3
+        const config = this.pointsConfig || this.tournament?.attributes?.points_config;
+        if (config) {
+            const key = String(position);
+            if (typeof config[key] === 'number') {
+                return config[key];
+            }
+            if (typeof config.default === 'number') {
+                return config.default;
+            }
+        }
+        const fallbackMap = {
+            1: 10,
+            2: 9,
+            3: 8,
+            4: 7,
+            5: 6,
+            6: 5,
+            7: 4,
+            8: 3,
+            default: 1
         };
-        return pointsMap[position] || 1;
+        return fallbackMap[position] || fallbackMap.default;
     }
 
     // Refresh data

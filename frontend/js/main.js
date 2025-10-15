@@ -8,7 +8,7 @@ class TournamentApp {
     // Initialize the application
     async initialize() {
         try {
-            console.log('🏁 Initializing Ultimate Buggy Racing Tournament System...');
+            console.log('🏁 Initializing Ultimate Buggy Lapping Tournament System...');
 
             // Set up UI event listeners first
             window.uiManager.setupEventListeners();
@@ -50,6 +50,10 @@ class TournamentApp {
         // Update overview section
         window.uiManager.updateOverview(tournament, stats, currentZone);
         window.uiManager.updateRecentResults(recentResults);
+        window.uiManager.updateStandings();
+        window.uiManager.updateZones();
+        window.uiManager.updateResults();
+        window.uiManager.updatePlayers();
 
         // Update zone filter options
         window.uiManager.updateZoneFilter();
@@ -184,6 +188,7 @@ class TournamentApp {
     // Cleanup
     destroy() {
         this.stopAutoRefresh();
+        window.uiManager.stopCountdownTimer();
         this.isInitialized = false;
     }
 }
